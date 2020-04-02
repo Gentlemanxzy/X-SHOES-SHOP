@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+		<!-- 导入所需要的公共的css和baseURL和部分js -->
+		<#include "tools.html"/>
+        <!-- favicon
+        ============================================ -->
+        <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"> -->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/main.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/responsive.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+        <!-- modernizr JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/modernizr-2.8.3.min.js"></script>
+        
+        <style>
+        .layui-form-label {
+		    float: left;
+		    display: block;
+		    padding: 9px 15px;
+		    width: 120px;
+		    font-weight: 400;
+		    line-height: 20px;
+		    text-align: right;
+		}
+		.layui-input-block {
+		    margin-left: 130px;
+		    min-height: 36px;
+		}
+        </style>
+        
+        
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <!-- header area start -->
+         <header>
+        	<div id ="headerid"></div>
+        </header>
+        <!-- header area end -->
+        <!-- contact area start -->
+        <div class="contact-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="location">
+                            <ul>
+                                <li><a href="${rc.contextPath}/index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><strong> contact(联系我们)</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="contact-info">
+                            
+                            <div class="contact-details">
+                                <div class="contact-title">
+                                    <h3>contact us-(联系我们)</h3>
+                                </div>
+                                <div class="contact-form">
+                                    <div class="form-title">
+                                        <h4>contact information</h4>
+                                    </div>
+                                    <div class="layui-form">
+                                    	<form class="layui-form" action="" lay-filter="contactInfo">
+                                    		<div class="layui-form-item">
+												<label class="layui-form-label">姓名：</label>
+												<div class="layui-input-block">
+													<input type="text" name="name"
+														lay-verify="required" lay-reqtext="姓名是必填项，岂能为空？"
+														placeholder="请输入姓名" autocomplete="off" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-form-item">
+												<label class="layui-form-label">我的邮箱：</label>
+												<div class="layui-input-block">
+													<input type="text" name="email" lay-verify="email|required" placeholder="请输入您的邮箱"
+														autocomplete="off" class="layui-input" lay-reqtext="邮箱不能为空">
+												</div>
+											</div>
+											<div class="layui-form-item">
+												<label class="layui-form-label">我的手机号：</label>
+												<div class="layui-input-block">
+													<input type="tel" name="phone" lay-verify="phone" placeholder="请输入您的手机号"
+														autocomplete="off" class="layui-input" >
+												</div>
+											</div>
+											<div class="layui-form-item layui-form-text">
+												<label class="layui-form-label">您的意见：</label>
+												<div class="layui-input-block">
+													<textarea placeholder="请填写您的意见..." lay-verify="required" lay-reqtext="请填写您的意见"
+														class="layui-textarea" name="comment"></textarea>
+												</div>
+											</div>
+											<div class="buttons-set">
+			                                    <p> <em>*</em> Required Fields</p>
+			                                    <button type="button" lay-submit="" lay-filter="commentSub">submit</button>
+			                                </div>
+                                    	</form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="baiduMap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- contact area end -->
+        <!-- footer area start -->
+        <div id="footerdiv">
+        
+        </div>
+        <!-- footer area end -->
+
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/bootstrap.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/wow.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-price-slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/js/jquery.nivo.slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/home.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.meanmenu.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/owl.carousel.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.elevatezoom.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.scrollUp.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/plugins.js"></script>
+        <script src="${rc.contextPath}/statics/js/main.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/contact.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+    </body>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var baseURL = $("#baseURL").val();
+    		$("#headerid").load(baseURL+"/header.html");
+    		$("#footerdiv").load(baseURL+"/footer.html");
+    	});
+    	
+    </script>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+	<link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+	<script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+	<script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+    <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+    <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+    <script src="${rc.contextPath}/statics/js/vendor/province_city_area.js"></script>
+    
+    <style>
+    .layui-form-label {
+	    float: left;
+	    display: block;
+	    padding: 9px 15px;
+	    width: 120px;
+	    font-weight: 400;
+	    line-height: 20px;
+	    text-align: center;
+	}
+	.layui-form-item .layui-input-inline {
+	    float: left;
+	    width: 390px;
+	    margin-right: 10px;
+	}
+	.layui-inline{
+		width: 160px;
+	}
+	.layui-input-block-btndiv{
+		text-align: center;
+	    width: 100%;
+	    margin-top: 60px;
+	    margin-left: 0px;
+	    min-height: 0px;
+	}
+	.layui-btn{
+		width:50%;
+	}
+    </style>
+    
+</head>
+<body style="height: 95%;">
+	<div id="quickview-wrapper">
+	    <div class="layui-form" style="margin-top:20px;">
+			<form class="layui-form" action="" lay-filter="areaInfo">
+				<div class="layui-form-item">
+					<label class="layui-form-label">收货人姓名：</label>
+					<div class="layui-input-inline">
+						<input  type="text" name="shopName" lay-verify="required" lay-reqtext="姓名是必填项，岂能为空？"
+							placeholder="请输入姓名" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">收货人手机号：</label>
+					<div class="layui-input-inline">
+						<input type="tel" name="phone" lay-verify="phone|required" autocomplete="off" class="layui-input" 
+							lay-reqtext="手机号是必填项，岂能为空？"   placeholder="请输入手机号">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+				    <label class="layui-form-label">选择省份：</label>
+				    <div class="layui-input-inline">
+				        <div class="layui-block">
+				            <select name="province" id="province" lay-filter="province" lay-search="" lay-verify="required" lay-reqtext="省市区为必选项" >
+				            </select>
+				        </div>
+				    </div>
+				</div>
+				
+				<div class="layui-form-item">
+				    <label class="layui-form-label">选择城市：</label>
+				    <div class="layui-input-inline">
+				        <div class="layui-block">
+				            <select name="city" id="city" lay-filter="city" lay-search="" lay-verify="required" lay-reqtext="省市区为必选项" >
+				            </select>
+				        </div>
+				    </div>
+				</div>
+				
+				<div class="layui-form-item">
+				    <label class="layui-form-label">选择区县：</label>
+				    <div class="layui-input-inline">
+				        <div class="layui-block">
+				            <select name="area" id="county" lay-filter="county" lay-search="" lay-verify="required" lay-reqtext="省市区为必选项" >
+				            </select>
+				        </div>
+				    </div>
+				</div>
+				
+				<div class="layui-form-item layui-form-text">
+				    <label class="layui-form-label">请输入详细地址：</label>
+				    <div class="layui-input-inline">
+				      <textarea name="detailAddress" placeholder="请输入详细地址" class="layui-textarea" lay-verify="required" lay-reqtext="光有省市区，我该送哪呢？"></textarea>
+				    </div>
+				  </div>
+				
+				<div class="layui-form-item">
+				    <label class="layui-form-label">设为默认地址：</label>
+				    <div class="layui-input-block">
+				      <input type="checkbox" checked="" name="close" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+				    </div>
+				  </div>
+				
+				<div class="layui-form-item">
+				    <div class="layui-input-block-btndiv">
+				      <button type="button" class="layui-btn" lay-submit="" lay-filter="saveBtn">立即提交</button>
+				    </div>
+				  </div>
+			</form>
+		</div>
+	</div>
+	<input type="hidden" value="${rc.contextPath}" id="baseURL">
+</body>
+
+<script>
+var baseURL = $("#baseURL").val();
+var userId = getUrlParam("userId");
+var status = getUrlParam("status");
+
+$(document).ready(function(){
+	if(status == 1){// 新增
+		layui.use(['form','upload'], function(){
+		  var form = layui.form	//只有执行了这一步，部分表单元素才会自动修饰成功
+		  ,upload = layui.upload;
+		  
+		  provinceChange(form,"","","");
+		  
+		  /*监听省select*/
+		    form.on('select(province)', function(data){
+		        cityChange(form,data.value,"","")
+		    });
+		 
+		    /*监听市select*/
+		    form.on('select(city)', function(data){
+		        countyChange(form,data.value,"");
+		    });
+
+		    form.on('switch(switchTest)', function(data){
+		    	var msg = "";
+		    	var check = (this.checked ? true : false);
+		    	if(check){
+		    		msg = "温馨提示：设为默认后，原先的默认地址将会取消默认";
+		    	}else{
+		    		msg = "已取消默认";
+		    	}
+		        layer.tips(msg, data.othis);
+		      });
+		  form.render();
+		  
+		  form.on('submit(saveBtn)', function(data){
+			  console.log(data.field);
+			  var info = data.field;
+			  if(info.close=="on"){
+				  info.isMain = "1";
+			  }else{
+				  info.isMain = "0";
+			  }
+			  
+			  var province = $('#province option:selected').text();
+			  var city = $('#city option:selected').text();
+			  var county = $('#county option:selected').text();
+			  
+			  info.province = province;
+			  info.city = city;
+			  info.area = county;	
+			  
+			  info = JSON.stringify(info);
+			  $.ajax({
+				 url:baseURL+"/user/addAddr",
+				 data:{
+					 userId:userId,
+					 str : info,
+				 },
+				 type : "post", // 请求的类型，可选post、get等
+				 dataType : "json" ,
+				 async : "true",
+				 success:function(data){
+					 if(data.code=200){
+						 // 调用父页面的更新列表方法
+						 var evalStr = "parent.getShopArea('"+userId+"')";
+						 eval(evalStr);
+						 
+						 var index = parent.layer.getFrameIndex(window.name);
+						 parent.layer.close(index);
+						 //layer.closeAll();
+						 layer.msg(data.msg);
+					 }else{
+						 layer.msg(data.msg);
+					 }
+				 }
+					
+			  });
+		  });
+		});
+		
+	}else if(status ==2){ // 修改
+		var addId = getUrlParam("addId");
+		var addData = "";
+		$.ajax({
+			url:baseURL+"/user/getAddrByAddId",
+			 data:{
+				 addId:addId
+			 },
+			 type : "post", 
+			 dataType : "json" ,
+			 async : "false",// 同步
+			 success:function(data){
+				 if(data.code=200){
+					 addData = data.addrInfo;
+				 }
+			 }
+		});
+		
+		layui.use(['form','upload'], function(){
+			  var form = layui.form	//只有执行了这一步，部分表单元素才会自动修饰成功
+			  ,upload = layui.upload;
+			  
+			  if(addData==null){
+				  return;
+			  }
+			  if(addData.isMain=="1"){
+				  addData.close = "on";
+			  }else{
+				  addData.close = "";
+			  }
+			  
+			  var sf = addData.province;
+			  var cs = addData.city;
+			  var dq = addData.area;
+			  
+			  var ChineseDistricts=districts();
+			  var provinces=ChineseDistricts["86"];
+			  for(k in provinces){
+				  if(sf == provinces[k]){
+					  sf = k;
+				  }
+			  }
+			  var citys=ChineseDistricts[sf];
+			  for(t in citys){
+				  if(cs == citys[t]){
+					  cs = t;
+				  }
+			  }
+			  var areas=ChineseDistricts[cs];
+			  for(v in areas){
+				  if(dq == areas[v]){
+					  dq = v;
+				  }
+			  }
+			  
+			  form.val('areaInfo', {
+			      "shopName": addData.shopName // "name": "value"
+			      ,"phone": addData.phone
+			      ,"detailAddress": addData.detailAddress
+			      ,"close":addData.close
+			    });
+			  
+			  provinceChange(form,sf,cs,dq);
+			  
+			  /*监听省select*/
+			    form.on('select(province)', function(data){
+			        cityChange(form,data.value,"","")
+			    });
+			 
+			    /*监听市select*/
+			    form.on('select(city)', function(data){
+			        countyChange(form,data.value,"");
+			    });
+
+			    form.on('switch(switchTest)', function(data){
+			    	var msg = "";
+			    	var check = (this.checked ? true : false);
+			    	if(check){
+			    		msg = "温馨提示：设为默认后，原先的默认地址将会取消默认";
+			    	}else{
+			    		msg = "已取消默认";
+			    	}
+			        layer.tips(msg, data.othis);
+			      });
+			  form.render();
+			  
+			  form.on('submit(saveBtn)', function(data){
+				  console.log(data.field);
+				  var info = data.field;
+				  if(info.close=="on"){
+					  info.isMain = "1";
+				  }else{
+					  info.isMain = "0";
+				  }
+				  var province = $('#province option:selected').text();
+				  var city = $('#city option:selected').text();
+				  var county = $('#county option:selected').text();
+				  
+				  info.province = province;
+				  info.city = city;
+				  info.area = county;	
+				  info.addId = addId;
+				  info = JSON.stringify(info);
+				  $.ajax({
+					 url:baseURL+"/user/updateAddr",
+					 data:{
+						 userId:userId,
+						 str : info,
+					 },
+					 type : "post", // 请求的类型，可选post、get等
+					 dataType : "json" ,
+					 async : "true",
+					 success:function(data){
+						 if(data.code=200){
+							 // 调用父页面的更新列表方法
+							 var evalStr = "parent.getShopArea('"+userId+"')";
+							 eval(evalStr);
+							 
+							 var index = parent.layer.getFrameIndex(window.name);
+							 parent.layer.close(index);
+							 //layer.closeAll();
+							 layer.msg(data.msg);
+						 }else{
+							 layer.msg(data.msg);
+						 }
+					 }
+							
+				  });
+			  });
+		});
+	}
+});
+
+
+//获取url参数的js方法
+function getUrlParam(name) {
+	var reg = RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null){
+		return decodeURIComponent(r[2]);
+	} else {
+		return null;
+	}
+}
+
+
+/**
+ * 初始化省
+ */
+function provinceChange(form,provinceValue,cityValue,countyValue){
+    var ChineseDistricts=districts();
+    var provinces=ChineseDistricts["86"];
+    var province=$('#province');
+    province.empty();
+    province.append('<option value="'+"0"+'">'+"请选择省"+'</option>');
+    for(key in provinces){
+        if(key==provinceValue){
+            province.append('<option selected value="'+key+'">'+provinces[key]+'</option>');
+        }else{
+            province.append('<option value="'+key+'">'+provinces[key]+'</option>');
+        }
+    }
+    form.render('select');
+    cityChange(form,provinceValue,cityValue,countyValue);
+}
+ 
+/**
+ * 初始化市
+ */
+function cityChange(form,provinceValue,cityValue,countyValue){
+    //改变市
+    var ChineseDistricts=districts();
+    var citys=ChineseDistricts[provinceValue];
+    var city=$('#city');
+    city.empty();
+    city.append('<option value="'+""+'">'+"请选择市"+'</option>');
+    for(key in citys){
+        if(key==cityValue){
+            city.append('<option selected value="'+key+'">'+citys[key]+'</option>');
+        }else{
+            city.append('<option value="'+key+'">'+citys[key]+'</option>');
+        }
+    }
+    form.render('select');
+    countyChange(form,cityValue,countyValue);
+}
+ 
+/**
+ * 初始化县/区
+ */
+function countyChange(form,cityValue,countyValue){
+    //改变县/区
+    var ChineseDistricts=districts();
+    var countys=ChineseDistricts[cityValue];
+    var county=$('#county');
+    county.empty();
+    county.append('<option value="'+""+'">'+"请选择县/区"+'</option>');
+    for(key in countys){
+        if(key==countyValue){
+            county.append('<option selected value="'+key+'">'+countys[key]+'</option>');
+        }else{
+            county.append('<option value="'+key+'">'+countys[key]+'</option>');
+        }
+    }
+    form.render('select');
+}
+
+</script>
+</html>

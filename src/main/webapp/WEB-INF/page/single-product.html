@@ -1,0 +1,803 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+		<!-- 导入所需要的公共的css和baseURL和部分js -->
+		<#include "tools.html"/>
+
+        <link href='http://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/main.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/responsive.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+        <!-- modernizr JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- header area start -->
+        <header>
+        	<div id ="headerid"></div>
+        </header>
+        <!-- header area end -->
+        <!-- single product area start -->
+        <div class="Single-product-location home2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="location">
+                            <ul>
+                                <li><a href="index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><strong> 商品展示</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- single product area end -->
+        <!-- single product details start -->
+        <div class="single-product-details">
+            <div class="container">
+                <div class="row" style="min-height: 800px;">
+                    <div class="col-sm-6" id="good_img">
+                        <div class="single-product-img">
+                            <div class="single-pro-main-image" >
+                            	<template v-for="img in imgs">
+                                <a href="" v-if="img.isMainImg == 1">
+                                	<img v-if="img.isMainImg == 1" id="optima_zoom" v-bind:src="img.imgSrc" v-bind:data-zoom-image="img.imgSrc" 
+                                		alt="这是图片" style="height: 555px;width: 555px;"/>
+                               	</a>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="product-page-slider hidden-xs">
+                            <div class="single-product-slider" v-for="img in imgs">
+                                <a>
+                                    <img v-bind:src="img.imgSrc" alt="img" style="width:150px;height:150px;" v-on:click="changeImg(img.imgSrc);">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="single-product-details" id="good_info">
+                            <a href="#" class="product-name">{{good.goodName}}</a>
+                            <div class="list-product-info">
+                                <div class="price-rating">
+                                    <div class="ratings">
+                                        <!-- <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i> -->
+                                        
+                                        <i v-if="(good.goodScore/2)>=1" class="fa fa-star"></i>
+                                        <i v-else-if="(good.goodScore/2)==0.5" class="fa fa-star-half-o"></i>
+                                        <i v-else class="fa fa-star-o"></i>
+                                        
+                                        <i v-if="(good.goodScore/2)>=2" class="fa fa-star"></i>
+                                        <i v-else-if="(good.goodScore/2)==1.5" class="fa fa-star-half-o"></i>
+                                        <i v-else class="fa fa-star-o"></i>
+                                        
+                                        <i v-if="(good.goodScore/2)>=3" class="fa fa-star"></i>
+                                        <i v-else-if="(good.goodScore/2)==2.5" class="fa fa-star-half-o"></i>
+                                        <i v-else class="fa fa-star-o"></i>
+                                        
+                                        <i v-if="(good.goodScore/2)>=4" class="fa fa-star"></i>
+                                        <i v-else-if="(good.goodScore/2)==3.5" class="fa fa-star-half-o"></i>
+                                        <i v-else class="fa fa-star-o"></i>
+                                        
+                                        <i v-if="(good.goodScore/2)>=5" class="fa fa-star"></i>
+                                        <i v-else-if="(good.goodScore/2)==4.5" class="fa fa-star-half-o"></i>
+                                        <i v-else class="fa fa-star-o"></i>
+                                        
+                                        <a href="#" class="review">1 人评分</a>
+                                        <a href="#" class="add-review">Add Your Review</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="avalable">
+                                <p>Availability:<span> In stock</span></p>
+                            </div>
+                            <div class="item-price">
+                                <span id="goodPrice">￥{{good.goodPrice}}</span>
+                            </div>
+                            <div class="single-product-info">
+                            	<p style="font-size: 15px;font-weight: 600;padding-bottom: 10px; ">商 品 概 述 ： </p>
+                                <p>{{good.goodDescription}}</p>
+                                <div class="share">
+                                    <img src="${rc.contextPath}/statics/img/product/share.png" alt="">
+                                </div>
+                            </div>
+                            <div class="action">
+                                <ul class="add-to-links">
+                                    <li>
+                                        <a v-on:click="likeOrHeat($event,good.goodId);" v-if="(good.fav=='0')">
+                                            <i class="fa fa-heart"></i>
+                                        </a>
+                                        <a v-on:click="likeOrHeat($event,good.goodId);" v-else="(good.fav=='1')" class="isFavIcon">
+                                            <i class="fa fa-heart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="select-catagory">
+                                <div class="color-select">
+                                    <label class="required">
+                                        <em>*</em> 商品颜色
+                                    </label>
+                                    <div class="input-box">
+                                        <select id="select-1">
+                                            <option value="">-- Please Select --</option>
+                                            <option v-bind:value="good.goodColor">{{good.goodColor}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="size-select">
+                                    <label class="required">
+                                        <em>*</em> 商品尺码
+                                    </label>
+                                    <div class="input-box">
+                                        <select id="select-2">
+                                            <option value="">-- Please Select --</option>
+                                            <option v-bind:value="size" v-for="size in good.goodSize">EUR {{size}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="size-select">
+                                    <label class="required">
+                                        <!-- <em>*</em> --> 商家优惠券
+                                    </label>
+                                    <div class="input-box">
+                                        <select id="select-2">
+                                            <option value="">-- Please Select --</option>
+                                            <option value="">不使用</option>
+                                            <option value="1000-1">满1000-1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart-item">
+                                <div class="price-box">
+                                	<span>总计：</span>
+                                    <span>￥<span id="totPrice" style="display: inline-block;">0</span></span>
+                                </div>
+                                <div class="single-cart">
+                                    <div class="cart-plus-minus">
+                                        <label>选择数量： </label>
+                                        <input id="qtyinput" class="cart-plus-minus-box" type="text" name="qtybutton" value="0" onchange="modifyprice(this.value);">
+                                    </div>
+                                    <button class="cart-btn" id="addCartBtn" onclick="addCartBtn();">添加至购物车</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- single product details end -->
+        <!-- single product tab start -->
+        <div class="single-product-tab-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="single-product-tab">
+                            <ul class="single-product-tab-navigation" role="tablist">
+                                <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Product Description</a></li>
+                                <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">reviews</a></li>
+                                <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">product tag</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content single-product-page">
+                                <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+                                    <div class="single-p-tab-content">
+                                    	<p style="font-size:16px;">商品详情：</p>	
+                                        <p id="gooddesc">商品详情</p>
+                                        <p id="goodBrand" style="bottom: 0px; position: absolute;right: 60px;"><i>- Design By XSS</i></p>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab2">
+                                    <div class="single-p-tab-content">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="product-review">
+                                                    <p> <a href="#"> plaza</a> <span>Review by</span> plaza </p>
+                                                    <div class="product-rating-info">
+                                                        <p>value</p>
+                                                        <div class="ratings">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-rating-info">
+                                                        <p>Quality</p>
+                                                        <div class="ratings">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-rating-info">
+                                                        <p>Price</p>
+                                                        <div class="ratings">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-half-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review-date">
+                                                        <p>plaza <em> (Posted on 8/27/2015)</em></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="rate-product hidden-xs">
+                                                    <div class="rate-product-heading">
+                                                        <h3>You're reviewing: Fusce aliquam</h3>
+                                                        <h3>How do you rate this product? <em>*</em></h3>
+                                                    </div>
+                                                    <form action="#">
+                                                        <table class="product-review-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>1 star</th>
+                                                                    <th>2 star</th>
+                                                                    <th>3 star</th>
+                                                                    <th>4 star</th>
+                                                                    <th>5 star</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>Price</th>
+                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[1]"> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Value</th>
+                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[2]"> </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Quality</th>
+                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
+                                                                    <td> <input type="radio" class="radio" name="ratings[3]"> </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <ul class="form-list">
+                                                            <li>
+                                                                <label> nickname <em>*</em> </label>
+                                                                <input type="text">
+                                                            </li>
+                                                            <li>
+                                                                <label> Summary of Your Review <em>*</em> </label>
+                                                                <input type="text">
+                                                            </li>
+                                                            <li>
+                                                                <label> Review <em>*</em> </label>
+                                                                <textarea cols="3" rows="5"></textarea>
+                                                            </li>
+                                                        </ul>
+                                                        <button type="submit"> submit review</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab3">
+                                    <div class="single-p-tab-content">
+                                        <div class="add-tab-title">
+                                            <p> add your tag </p>
+                                        </div>
+                                        <div class="add-tag">
+                                            <form action="#">
+                                                <input type="text">
+                                                <button type="submit">add tags</button>
+                                            </form>
+                                        </div>
+                                        <p class="tag-rules">Use spaces to separate tags. Use single quotes (') for phrases.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- single product tab end -->
+        <!-- upsell product area start-->
+        <div class="upsell-product home2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-title">
+                            <h2>upsell products</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="upsell-slider">
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/25.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/26.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/23.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/24.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/21.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/22.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/19.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/20.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/17.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/18.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/15.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/16.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/13.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/14.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/11.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/12.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="list-product-info">
+                                    <div class="price-rating">
+                                        <div class="ratings">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-o"></i>
+                                            <a href="#" class="review">1 Review(s)</a>
+                                            <a href="#" class="add-review">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- upsell product area end-->
+        <!-- related product area start-->
+        <div class="related-product home2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-title">
+                            <h2>related products</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="related-slider">
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/25.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/26.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/23.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/24.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/21.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/22.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/19.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/20.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/17.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/18.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/15.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/16.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/13.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/14.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="single-product">
+                                <div class="product-img">
+                                    <a href="single-product.html">
+                                        <img src="${rc.contextPath}/statics/img/product/11.png" alt="" class="primary-img">
+                                        <img src="${rc.contextPath}/statics/img/product/12.png" alt="" class="secondary-img">
+                                    </a>
+                                </div>
+                                <div class="product-price">
+                                    <div class="product-name">
+                                        <a href="single-product.html" title="Fusce aliquam">Fusce aliquam</a>
+                                    </div>
+                                    <div class="price-rating">
+                                        <span>$170.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- related product area end-->
+        
+        <!-- footer area start -->
+        <div id="footerdiv">
+        
+        </div>
+        <!-- footer area end -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/bootstrap.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/wow.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-price-slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/js/jquery.nivo.slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/home.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.meanmenu.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/owl.carousel.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.elevatezoom.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.scrollUp.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/plugins.js"></script>
+        <script src="${rc.contextPath}/statics/js/main.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+    	<script src="${rc.contextPath}/statics/js/single-product.js"></script>
+    </body>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var baseURL = $("#baseURL").val();
+    		$("#headerid").load(baseURL+"/header.html");
+    		$("#footerdiv").load(baseURL+"/footer.html");
+    		layer.closeAll();
+    	});
+    
+    </script>
+</html>

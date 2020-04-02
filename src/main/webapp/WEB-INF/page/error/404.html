@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=11"
+	id="mixia_vpid">
+
+<title>404.页面走丢了~</title>
+<meta name=keywords content="404页面">
+<meta name=description content="一万年太久，只争朝夕">
+<!-- <link rel="icon" href="https://404.life/favicon.ico"> -->
+<link rel="shortcut icon" type="image/x-icon" href="${rc.contextPath}/statics/img/shoe.ico">
+<!-- <link rel="stylesheet" href="${rc.contextPath}/statics/css/error/font-awesome.min.css"> -->
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/font-awesome.min.css">
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/error/main.css">
+<link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+<script
+	src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script>
+<style>
+.wechat:hover .qrCode[data-v] {
+    display: none;
+}
+</style>
+</head>
+<body>
+
+	<span class="mobile btn-mobile-menu"> <i
+		class="fa fa-list btn-mobile-menu__icon"></i> <i
+		class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+	</span>
+	<header class="panel-cover" style="background-image: url(${rc.contextPath}/statics/img/error/bg.jpg)">
+		<div class="panel-main">
+			<div class="panel-main__inner panel-inverted">
+				<div class="panel-main__content">
+					<a href="${rc.contextPath}/index.html" title="前往 XSS"><img src="${rc.contextPath}/statics/img/error/few.jpg"
+						width="150" alt="Noisky logo" class="panel-cover__logo logo"></a>
+					<h1 class="panel-cover__title panel-title">
+						<a href="${rc.contextPath}/index.html" title="link to homepage for noisky">404</a>
+					</h1>
+
+					<hr class="panel-cover__divider">
+					<p class="panel-cover__description">对不起哦，您要找的页面被小萌弄丢了，(＞人＜；)</p>
+					<hr class="panel-cover__divider panel-cover__divider--secondary">
+
+					<p class="panel-cover__description">既然都404了，要不干脆去玩吧~</p>
+
+					<p class="footer">XSS·ALUBBAR © 2020</p>
+					<div class="navigation-wrapper">
+						<div>
+							<nav class="cover-navigation cover-navigation--primary">
+								<ul class="navigation">
+									<li class="navigation__item"><a href="${rc.contextPath}/index.html"
+										title="回到首页">回到过去</a></li>
+
+									<li class="navigation__item"><a href="${rc.contextPath}/shop.html"
+										title="还是购物吧">SHOPPING</a></li>
+
+									<li class="navigation__item"><a href="${rc.contextPath}/about-us.html"
+										title="关于ME">关于</a></li>
+										
+									<li class="navigation__item"><a href="${rc.contextPath}/contact.html"
+										title="联系ME">联系我</a></li>
+								</ul>
+							</nav>
+						</div>
+
+						<div>
+							<nav class="cover-navigation navigation--social">
+								<ul class="navigation">
+
+									<!-- QQ -->
+									<li class="navigation__item"><a
+										href="https://wpa.qq.com/msgrd?v=3&uin=747636081&site=qq&menu=yes"
+										title="404@QQ" target="_blank"> <i class="social fa fa-qq"></i>
+									</a></li>
+
+									<!-- Weixin -->
+									<li class="navigation__item" onclick="showWechat();"><a data-v="" href="javascript:;"
+										title="扫一扫加我微信" class="wechat">
+											<div data-v="" class="qrCode">
+												<img data-v="" src="${rc.contextPath}/statics/img/WeChat.jpg" width="92"/>
+												<div data-v="" class="triangle-down"></div>
+											</div> 
+											<i class="social fa fa-weixin"></i>
+									</a></li>
+
+									<!-- Email -->
+									<li class="navigation__item"><a
+										href="mailto:747636081@qq.com" title="发邮件给我"> <i
+											class="social fa fa-envelope"></i>
+									</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-cover--overlay cover-slate"></div>
+		</div>
+		<input type="hidden" value="${rc.contextPath}" id="baseURL">
+	</header>
+	<script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+	<script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+	<script type="text/javascript"
+		src="https://static.noisky.cn/homepage/main.js"></script>
+</body>
+<script>
+var baseURL = $("#baseURL").val();
+var url = baseURL + "/statics/img/WeChat.jpg";
+function showWechat(){
+	layer.open({
+		title: '作者的wechat',
+		content:'<img style="width:100%;" src="'+url+'"></img><br><center><p>备注xss</p></center>',
+		area:['350px','580px'],
+		scrollbar: false
+	});
+}
+</script>
+</html>

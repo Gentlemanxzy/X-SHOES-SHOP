@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xss.mapper.ShopMapper">
+	
+    <select id="getShopList" parameterType="GoodsDto" resultType="Goods">
+    	select * from goods where status = 1
+    	<if test="minPrice != '' and  minPrice != null">
+        	and good_price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != '' and  maxPrice != null">
+        	and good_price &lt;= #{maxPrice}
+        </if>
+        <if test="keyword != '' and keyword != null">
+    		and  good_name  like CONCAT('%',#{keyword},'%') 
+    		or good_series  like CONCAT('%',#{keyword},'%')
+    		or good_description like CONCAT('%',#{keyword},'%')
+    		or good_tags like CONCAT('%',#{keyword},'%')
+    	</if>
+    	<if test="goodFit!='' and goodFit!=null">
+    		and good_fit = #{goodFit}
+    	</if>
+    	
+    	<if test="orderBy != '' and orderBy !=null">
+	    	order by ${orderBy} ${sort}
+    	</if> 
+    	LIMIT #{pageNums},#{pageSize}
+    </select>
+    
+    <select id="getShopTotal" parameterType="GoodsDto" resultType="int">
+    	select count(1) from goods where status = 1
+    	<if test="minPrice != '' and  minPrice != null">
+        	and good_price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != '' and  maxPrice != null">
+        	and good_price &lt;= #{maxPrice}
+        </if>
+        <if test="keyword != '' and keyword != null">
+    		and  good_name  like CONCAT('%',#{keyword},'%') 
+    		or good_series  like CONCAT('%',#{keyword},'%')
+    		or good_description like CONCAT('%',#{keyword},'%')
+    		or good_tags like CONCAT('%',#{keyword},'%')
+    	</if>
+    	<if test="goodFit!='' and goodFit!=null">
+    		and good_fit = #{goodFit}
+    	</if>
+    </select>
+    
+    <select id="getBrandList" resultType="Brand">
+    	select * from brand where status = 0
+    	order by brand_score desc
+    	limit 8
+    </select>
+    
+    <select id="getGoodImgs" parameterType="java.lang.String" resultType="Images">
+    	select * from images where good_id = #{goodId}
+    	order by img_src
+    </select>
+    
+    <select id="getGoodInfo" parameterType="java.lang.String" resultType="Goods">
+    	select * from goods where good_id = #{goodId}
+    </select>
+    
+    <select id="isLikeGood" resultType="FavGoods">
+    	select * from favgoods where good_id = #{goodId} and user_id = #{userId}
+    </select>
+    
+    <insert id="insertLikeGood">
+    	INSERT into favgoods (fav_id,user_id,good_id,status,create_time)
+		Values (REPLACE(UUID(),"-",""),#{userId},#{goodId},'1',Now());
+    </insert>
+    
+    <update id="updateLikeGood">
+    	UPDATE favgoods SET status = '0' WHERE good_id = #{goodId} and user_id = #{userId}
+    </update>
+    
+    <select id="getFavGoodsByuserId" resultType="FavGoods">
+    	select * from favgoods where user_id = #{userId} and status = 1
+    </select>
+    
+    <update id="delFav">
+    	UPDATE favgoods SET status = '0' WHERE good_id = #{goodId} and user_id = #{userId}
+    </update>
+    
+    <update id="favNumController">
+    	update goods set good_favs = good_favs+ #{num} where good_id = #{goodId} and status = '1'
+    </update>
+    
+    <insert id="addViewHis">
+    	insert into userviewhis (his_id,user_id,good_id,create_time)
+		Values (REPLACE(UUID(),"-",""),#{userId},#{goodId},Now());
+    </insert>
+</mapper>

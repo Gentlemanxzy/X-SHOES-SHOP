@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="sie-edge" />
+<title>登录注册页面</title>
+<link rel="shortcut icon" type="image/x-icon" href="${rc.contextPath}/statics/img/shoe.ico">
+<!--图标库-->
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+<script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+<script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+<script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+<script src="${rc.contextPath}/statics/js/vendor/md5.js"></script>
+<script src="${rc.contextPath}/statics/js/login.js"></script> 
+
+<link rel="stylesheet" type="text/css" href="${rc.contextPath}/statics/css/login.css">
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/font-awesome.min.css">
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/icons.css">
+
+</head>
+
+<body>
+<input type="hidden" value="${rc.contextPath}" id="baseURL">
+<div class="container" id="container">
+	<!-- 注册框 -->
+  <div class="form-container sign-up-container">
+    <form id="regform">
+      <h3>第三方按钮注册</h3>
+      <div class="social-container"> 
+      	<a href="#" class="social">
+      		<i class="fa fa-qq" aria-hidden="true"></i>
+      	</a> 
+      	<a href="#" class="social">
+      		<i class="fa fa-weibo" aria-hidden="true"></i>
+        </a> </div>
+      <span>或者 给自己取一个帅气的用户名进行注册</span>
+      <input id="userReg" type="text" autocomplete="off" placeholder="用户名" required>
+      <input id="psdReg" type="password" placeholder="密码" required	>
+      <input id="repsdReg" type="password" placeholder="确认密码" required>
+      <button id="btnReg" type="button">注册</button>
+    </form>
+  </div>
+  <!-- 登录框 -->
+  <div class="form-container sign-in-container">
+    <form>
+      <h3>第三方登录</h3>
+      <div class="social-container"> 
+      	<a href="#" class="social">
+        	<i class="fa fa-qq" aria-hidden="true"></i>
+        </a> 
+        <a href="#" class="social">
+        	<i class="fa fa-wechat" aria-hidden="true"></i>
+        </a> 
+        <a href="#" class="social">
+      		<i class="fa fa-weibo" aria-hidden="true"></i>
+        </a>
+        </div>
+      <span>或用账号登录</span>
+      <input id="userLogin" type="text" autocomplete="off" placeholder="用户名" required>
+      <input id="psdLogin" type="password" placeholder="密码"  required>
+      <button id="btnLogin" type="button" onclick="login();">登录</button>
+    </form>
+  </div>
+  
+  <!-- 副面板框 -->
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>欢迎回来</h1>
+        <p>获取潮流信息 | 请登录您的个人账户</p>
+        <button class="ghost" id="signIn">点击登录</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>欢迎光临</h1>
+        <p>输入您的个人资料 | 与我们一起开启ShowTime</p>
+        <button class="ghost" id="signUp">点击注册</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+	
+</body>
+</html>

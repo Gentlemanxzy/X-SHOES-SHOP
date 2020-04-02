@@ -1,0 +1,393 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+<!-- 导入所需要的公共的head 属性、css、baseURL和部分js -->
+<meta charset="utf-8">
+<#include "tools.html"/>
+
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/main.css">
+<link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+<link rel="stylesheet"
+	href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+</head>
+<style>
+.member-info {
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
+}
+
+.layui-form-label {
+	width: 170px;
+}
+
+.layui-form-item .layui-input-inline {
+	width: 250px;
+}
+
+.layui-textarea {
+	width: 70%;
+}
+</style>
+<body>
+	<!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+	<!-- Add your site or application content here -->
+	<!-- header area start -->
+	<header>
+		<div id="headerid"></div>
+	</header>
+	<!-- header area end -->
+	<!-- my account area start -->
+	<div class="account-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="location">
+						<ul>
+							<li><a href="index.html" title="go to homepage">Home<span>/</span></a>
+							</li>
+							<li><strong> my account (我的次元)</strong></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="product-sidebar">
+						<div class="single-member">
+							<div class="member-info">
+								<img src="${rc.contextPath}/statics/img/about/kobe2.jpeg" alt="">
+								<div class="member-social-profile">
+
+									<!-- <a href="javascript:;"> <i class="fa fa-qq"></i> </a>
+                                        <a href="javascript:;"> <i class="fa fa-wechat"></i> </a> -->
+								</div>
+							</div>
+							<h3 id="userName">xzy</h3>
+							<p id="motto"
+								style="margin-top: 10px; margin-bottom: 10px; overflow: hidden; word-break: keep-all; word-wrap: break-word;">这是个性签名</p>
+							<p id="jifen">0</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<div class="my-account-accordion">
+						<div class="panel-group" id="accordion" role="tablist"
+							aria-multiselectable="true">
+							
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingFour">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse"
+											data-parent="#accordion" href="#collapseFour"
+											aria-expanded="true" aria-controls="collapseFour"> <i
+											class="fa fa-user"></i> 个人信息
+										</a>
+									</h4>
+								</div>
+								<div id="collapseFour" class="panel-collapse collapse"
+									role="tabpanel" aria-labelledby="headingFour">
+									<div class="panel-body">
+										<div class="col-md-12">
+											<div class="delivery-details">
+												<!-- <form action="#"> -->
+												<!-- <div class="list-style"> -->
+												<div class="account-title">
+													<h4 style="margin-bottom: 20px;">Please be sure to
+														update your personal information if it has changed.</h4>
+												</div>
+												<div class="layui-form">
+													<form class="layui-form" action="" lay-filter="userInfo">
+														<div class="layui-form-item">
+															<label class="layui-form-label">用户名(不可更改)：</label>
+															<div class="layui-input-inline">
+																<input readonly="readonly" type="text" name="userName"
+																	lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？"
+																	placeholder="请输入" autocomplete="off"
+																	class="layui-input">
+															</div>
+														</div>
+
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的手机号：</label>
+															<div class="layui-input-inline">
+																<input type="tel" name="phoneNum" lay-verify="phone"
+																	autocomplete="off" class="layui-input">
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的邮箱：</label>
+															<div class="layui-input-inline">
+																<input type="text" name="email" lay-verify="email"
+																	autocomplete="off" class="layui-input">
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的性别♀♂：</label>
+															<div class="layui-input-inline">
+																<input type="radio" name="sex" value="01" title="男"
+																	checked=""> <input type="radio" name="sex"
+																	value="02" title="女"> <input type="radio"
+																	name="sex" value="" title="保持中性">
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<div class="layui-inline">
+																<label class="layui-form-label">我的生日：</label>
+																<div class="layui-input-inline">
+																	<input type="text" name="birthday" id="date"
+																		lay-verify="date" placeholder="yyyy-MM-dd"
+																		autocomplete="off" class="layui-input">
+																</div>
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的QQ：</label>
+															<div class="layui-input-inline">
+																<input type="tel" name="qqNum" autocomplete="off"
+																	class="layui-input">
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的微博：</label>
+															<div class="layui-input-inline">
+																<input type="text" name="weiboNum" autocomplete="off"
+																	class="layui-input">
+															</div>
+														</div>
+														<div class="layui-form-item">
+															<label class="layui-form-label">我的所在地：</label>
+															<div class="layui-input-inline">
+																<input type="text" name="userArea" autocomplete="off"
+																	class="layui-input">
+															</div>
+														</div>
+														<div class="layui-form-item layui-form-text">
+															<label class="layui-form-label">个性签名：</label>
+															<div class="layui-input-block">
+																<textarea placeholder="这是我的个性签名..."
+																	class="layui-textarea" name="motto"></textarea>
+															</div>
+														</div>
+														<div class="save-button">
+															<button type="submit" lay-submit="" lay-filter="save">save</button>
+														</div>
+													</form>
+												</div>
+
+												<!-- </div> -->
+												<!-- </form> -->
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse"
+											data-parent="#accordion" href="#collapseThree"
+											aria-expanded="false" aria-controls="collapseThree"> <i
+											class="fa fa-building-o"></i> 我的收货地址
+										</a>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse"
+									role="tabpanel" aria-labelledby="headingThree">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="my-address">
+													<div class="account-title">
+														<!-- <h4>我的收货地址 </h4> -->
+													</div>
+													<p></p>
+													<div class="row">
+														<div style="width: 100%" class="col-md-6 col-sm-12">
+															<div class="account-address">
+																<ul id="areaList">
+																	<li class="address-menu-title">我的收货地址列表</li>
+																	<li style="border-bottom: 1px dotted #ddd;"
+																		v-for="area in areaList">
+																		<div><b>
+																			姓名：</b><span>{{area.shopName}}</span> <span
+																				style="margin-left: 20px;"><b>联系方式：</b></span><span>{{area.phone}}</span>
+																			<button @click="updateAddr(area.addId);"
+																				class="account_edit_btn">编 辑</button>
+																			<button @click="delAddr(area.addId);"
+																				class="account_edit_btn">删 除</button>
+																		</div>
+																		<div><b>联系地址:</b> {{area.province}} {{area.city}}
+																			{{area.area}} {{area.detailAddress}}</div>
+																	</li>
+																	<li>
+																		<button id="updateList();">update</button>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+													<div class="add-address">
+														<button id="addShopAdd">添加新的收货地址</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse"
+											data-parent="#accordion" href="#collapseOne"
+											aria-expanded="false" aria-controls="collapseOne"> <i
+											class="fa fa-list-ol"></i> 我的订单
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in"
+									role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="account-title">
+													<h4>Here are the orders you've placed since your
+														account was created.</h4>
+												</div>
+												<div class="order-history">
+													<p>You have not placed any orders.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingTwo">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse"
+											data-parent="#accordion" href="#collapseTwo"
+											aria-expanded="false" aria-controls="collapseTwo"> <i
+											class="fa fa-file-o"></i> 我的支付方式
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse"
+									role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="account-title">
+													<h4>Credit slips you have received after canceled
+														orders.</h4>
+												</div>
+												<div class="credit-slids">
+													<p>You have not received any credit slips.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingFive">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse"
+											data-parent="#accordion" href="#collapseFive"
+											aria-expanded="false" aria-controls="collapseFive"> <i
+											class="fa fa-heart"></i> My wishlists
+										</a>
+									</h4>
+								</div>
+								<div id="collapseFive" class="panel-collapse collapse"
+									role="tabpanel" aria-labelledby="headingFive">
+									<div class="panel-body">
+										<div class="col-sm-12">
+											<div class="wishlist-container">
+												<h3>New Wishlist</h3>
+												<form action="#">
+													<label>Name</label> <input type="text">
+													<div class="save-button">
+														<button type="submit">save</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="account-button">
+							<div class="back-btn">
+								<a href="#">Back to your Account</a>
+							</div>
+							<div class="home">
+								<a href="index.html"> home</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="footerdiv"></div>
+
+	<!-- jquery
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+	<!-- bootstrap JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/bootstrap.min.js"></script>
+	<!-- wow JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/wow.min.js"></script>
+	<!-- price-slider JS
+        ============================================ -->
+	<script
+		src="${rc.contextPath}/statics/js/vendor/jquery-price-slider.js"></script>
+	<!-- nivoslider JS -- 幻灯片效果
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/lib/js/jquery.nivo.slider.js"></script>
+	<script src="${rc.contextPath}/statics/lib/home.js"></script>
+	<!-- meanmenu JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/jquery.meanmenu.js"></script>
+	<!-- owl.carousel JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/owl.carousel.min.js"></script>
+	<!-- elevatezoom JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/jquery.elevatezoom.js"></script>
+	<!-- scrollUp JS
+        ============================================ -->
+	<script
+		src="${rc.contextPath}/statics/js/vendor/jquery.scrollUp.min.js"></script>
+	<!-- plugins JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/vendor/plugins.js"></script>
+	<!-- main JS
+        ============================================ -->
+	<script src="${rc.contextPath}/statics/js/main.js"></script>
+	<!-- layui -->
+	<script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+	<!-- layer js -->
+	<script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+	<!-- index.js -->
+	<script src="${rc.contextPath}/statics/js/my-account.js"></script>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var baseURL = $("#baseURL").val();
+		$("#headerid").load(baseURL + "/header.html");
+		$("#footerdiv").load(baseURL + "/footer.html");
+
+	});
+</script>
+</html>

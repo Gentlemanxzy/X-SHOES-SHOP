@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+	<script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+	<script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+    <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+    <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+</head>
+<body style="height: 95%;">
+	<div id="quickview-wrapper">
+	    <!-- Modal -->
+	    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+	        <div class="modal-dialog" role="document" style="width:auto;margin:0px;">
+	            <div class="modal-content">
+	                <!-- <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                </div> -->
+	                <div class="modal-body">
+	                    <div class="modal-product">
+	                        <div class="product-images">
+	                            <div class="main-image images">
+	                                <!-- <img id="goodImg" alt="" src="${rc.contextPath}/statics/img/product/quick-view.jpg"> -->
+	                                <img id="goodImg" >
+	                            </div>
+	                        </div>
+	
+	                        <div class="product-info">
+	                            <h1>goodName</h1>
+	                            <div class="price-box">
+	                                <p class="price">
+	                                <span class="special-price"><span class="amount">132.00</span></span>
+	                                </p>
+	                            </div>
+	                            <a id="see-all" href="javascript:;" class="see-all">点击查看商品详情</a>
+	                            <div class="quick-add-to-cart" style="margin-top:0px;">
+	                                <form method="post" class="cart">
+	                                	<div class="color-select">
+		                                    <label class="required">
+		                                        <em>*</em> 商品颜色
+		                                    </label>
+		                                    <div class="input-box" style="width:50%;">
+		                                        <select id="select-1">
+		                                            <option value="">-- Please Select --</option>
+		                                            <option value="" id="goodColor"></option>
+		                                        </select>
+		                                    </div>
+		                                </div>
+		                                <div class="size-select" style="margin-bottom: 15px;">
+		                                    <label class="required">
+		                                        <em>*</em> 商品尺码
+		                                    </label>
+		                                    <div class="input-box" style="width:50%;">
+		                                        <select id="select-2">
+		                                            <option selected="selected" value="">-- Please Select --</option>
+		                                        </select>
+		                                    </div>
+		                                </div>
+	                                    <div class="numbers-row">
+	                                        <input type="number" id="french-hens" value="1" style="height:28px;">
+	                                    </div>
+	                                    <br>
+	                                    <div class="price-box">
+			                                <p class="price"><br>合计：
+			                                <span class="special-price"><span id="total" class="amount">9999.99</span></span>
+			                                </p>
+			                            </div>
+	                                    <button class="single_add_to_cart_button" type="button" id="addToCarBtn" style="height:40px;">Add to cart</button>
+	                                </form>
+	                            </div>
+	                            <div class="quick-desc" >
+	                            	<p style="font-size:15px;margin-bottom: 5px;"><strong>商品简介：</strong></p>
+	                                <p id="gooddesc" >描述</p>
+	                            </div>
+	                            <div class="share-post" style="display:none;">
+	                                <div class="share-title">
+	                                    <h3>share this product</h3>
+	                                </div>
+	                                <div class="share-social">
+	                                    <ul>
+	                                        <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
+	                                        <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
+	                                        <li><a href="#"> <i class="fa fa-pinterest"></i> </a></li>
+	                                        <li><a href="#"> <i class="fa fa-google-plus"></i> </a></li>
+	                                        <li><a href="#"> <i class="fa fa-linkedin"></i> </a></li>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<input type="hidden" value="${rc.contextPath}" id="baseURL">
+</body>
+
+<script>
+var userId = localStorage.getItem("user");
+var goodId = '';
+var baseURL = $("#baseURL").val();
+var price_good = 0;
+$(document).ready(function(){
+	
+	goodId = getUrlParam("goodId");
+	let imgSrc = '';
+	// 获取图片
+	$.ajax({
+		url:baseURL+"/shop/initGoodImgs",
+		type:'post',
+		data:{
+			goodId:goodId
+		},
+		async:false,
+		success:function(data){
+			if(data.code=='200'){
+				let goodImg = data.goodImg;
+				if(data.goodImg.length>0){
+					for(let k in goodImg){
+						if(goodImg[k].isMainImg=='1'){
+							imgSrc=baseURL+'/statics'+goodImg[k].imgSrc;
+							break;
+						}
+					}
+					$("#goodImg").attr('src',imgSrc);
+				}else{
+					$("#goodImg").attr('src','/xss/statics/img/product/24.png');
+				}
+			}
+		}
+	});
+	// 获取商品信息
+	$.ajax({
+		url:baseURL+"/shop/getGoodInfo",
+		type:"post",
+		dataType:"json",
+		data:{
+			goodId:goodId
+		},
+		async: true,
+		success:function(data){
+			if(data.code == '200'){
+				//console.log(data.goodInfo);
+				let goodInfo = data.goodInfo;
+				if(data.goodInfo.goodIsDiscount=='0'){
+					$(".amount").text('￥'+(goodInfo.goodPrice.toFixed(2)));
+					price_good = goodInfo.goodPrice;
+				}else{
+					let discountNum = goodInfo.discountNum;
+					$(".amount").text('￥'+(goodInfo.goodPrice*(discountNum/10)).toFixed(2));
+					price_good = (goodInfo.goodPrice*(discountNum/10)).toFixed(2);
+				}
+				$("#gooddesc").text(goodInfo.goodDescription);
+				$(".product-info h1").text(goodInfo.goodName);
+				$("#goodColor").text(goodInfo.goodColor);
+				$("#goodColor").val(goodInfo.goodColor);
+				
+				var sizes = goodInfo.goodSize.split("/");
+				for(let k in sizes){
+					$('#select-2').append('<option value='+sizes[k]+' id="">EUR:'+sizes[k]+'</option>')
+				}
+				
+				let href = 'single-product.html?goodId='+goodId;
+				//$(".see-all").attr('href', href);
+			}
+		}
+	});
+	
+});
+
+// 加入购物车按钮
+$("#addToCarBtn").click(function(){
+	// 先校验数据
+	var color = $("#select-1").find("option:selected").val();
+	var size =  $("#select-2").find("option:selected").val();
+	var nums = $("#french-hens").val();
+	var total = $("#total").text().replace('￥','');
+	if(color==""){
+		layer.msg("请选择颜色");
+		return;
+	}else if(size == ''){
+		layer.msg("请选择尺码");
+		return;
+	}else if(nums<=0){
+		layer.msg("请至少选择一双");
+		return;
+	}else{
+		$.ajax({
+			url:baseURL+"/cars/addToCar",
+			type:"post",
+			dataType:"json",
+			data:{
+				userId: userId,
+				goodId: goodId,
+				goodSize: size,
+				goodNums: nums,
+				goodTotalPrice: total,
+				goodColor: color
+			},
+			async: true,
+			success:function(data){
+				if(data.code == '200'){
+					//layer.closeAll();
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+					layer.closeAll();
+					layer.msg("添加购物车成功");
+				}
+			}
+		});
+	}
+	
+});
+
+$("#see-all").click(function(){
+	var index = parent.layer.getFrameIndex(window.name);
+	parent.layer.close(index);
+	layer.load(1);
+	parent.location.href=baseURL+'/single-product.html?goodId='+goodId;
+	//layer.closeAll();
+});
+
+
+$("#french-hens").change(function(){
+	let num = $("#french-hens").val();
+	if(num<0){
+		num=0;
+		$("#french-hens").val(0);
+	}
+	let price = $(".amount").text();
+	price = price.substring(1);
+	//$(".amount").text('￥'+price_good*num);
+	var total = (price_good*num).toFixed(2);
+	$("#total").text('￥'+total);
+});
+
+//获取url参数的js方法
+function getUrlParam(name) {
+	var reg = RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if(r != null){
+		return decodeURIComponent(r[2]);
+		//return unescape(r[2]);
+	} else {
+		return null;
+	}
+}
+</script>
+</html>

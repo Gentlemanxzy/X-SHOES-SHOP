@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xss.mapper.CarsMapper">
+
+	<select id="getCarsData" parameterType="java.lang.String" resultType="Cars">
+	<!-- 	select * from cars where user_id = #{userId} and good_status = '1' -->
+		select * from cars a inner join goods b where a.user_id = #{userId} and `status` = '1' 
+			and a.good_id = b.good_id and a.good_status = '1'
+	</select>
+	
+	<update id="updateGoodInfo">
+		update cars set good_color = #{goodColor} , good_nums =#{goodNums} 
+			,good_size = #{goodSize},good_total_price = #{goodTotalPrice},modify_time=NOW()
+		where user_id = #{userId} and good_id=#{goodId} and good_status = 1
+	</update>
+	
+	<insert id="addToCar">
+		INSERT INTO cars (car_id,user_id,good_id,good_color,good_size,
+			good_nums , good_total_price , create_time , modify_time , good_status )
+		VALUES (REPLACE(UUID(),"-",""),#{userId},#{goodId},#{goodColor},#{goodSize},
+			#{goodNums},#{goodTotalPrice},NOW(),NOW(),1);
+	</insert>
+	
+	<update id="delCarGood">
+		update cars set good_status = '0' 
+		where user_id = #{userId} and good_id = #{goodId} and good_color=#{goodColor} 
+			and good_size = #{goodSize} and good_status = '1'
+	</update>
+
+</mapper>

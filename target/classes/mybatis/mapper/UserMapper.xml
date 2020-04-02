@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xss.mapper.UserMapper">
+	
+	<update id="updateUserInfo" parameterType="User">
+		update user set 
+		<if test="sex!='' and sex!=null">
+			sex = #{sex}
+		</if>
+		<if test="phoneNum!='' and phoneNum!=null">
+			, phone_num = #{phoneNum}
+		</if>
+		<if test="qqNum !='' and qqNum !=null">
+			, qq_num = #{qqNum}
+		</if>
+		<if test="weiboNum !='' and weiboNum !=null">
+			, weibo_num = #{weiboNum}
+		</if>
+		<if test="email !='' and email !=null">
+			, email = #{email}
+		</if>
+		<if test="birthday !='' and birthday !=null">
+			, birthday = #{birthday}
+		</if>
+		<if test="motto !='' and motto !=null">
+			, motto = #{motto}
+		</if>
+		<if test="userArea !='' and userArea !=null">
+			, user_area = #{userArea}
+		</if>
+		where user_id=#{userId} 
+	</update>
+	
+	<select id="getShopArea" resultType="ShopAddress">
+		select * from shopaddress where user_id = #{userId} and status = '1'
+	</select>
+
+	<insert id="addShopAddr">
+		insert into shopaddress (add_id,user_id,shop_name,phone,province,city,area,detail_address,zip_code,is_main)
+		Values (REPLACE(UUID(),"-",""),#{userId},#{shopName},#{phone},
+					#{province},#{city},#{area},#{detailAddress},#{zipCode},#{isMain})
+	</insert>
+	
+	<update id="updateIsMain">
+		update shopaddress set is_main = '0' where status = '1' and user_id = #{userId}
+	</update>
+	
+	<update id="delAddr">
+		update shopaddress set status = '0' where add_id = #{addId}
+	</update>
+	
+	<select id="getAddrByAddId" resultType="ShopAddress">
+		select * from shopaddress where add_id = #{addId} and status = '1'
+	</select>
+	
+	<update id="updateAddr">
+		update shopaddress set shop_name = #{shopName},phone=#{phone},province=#{province},
+			city=#{city},area=#{area},detail_address=#{detailAddress},zip_code = #{zipCode},
+			is_main = #{isMain}
+		where add_id = #{addId}
+	</update>
+	
+	<insert id="commitComment" parameterType="Contact">
+		insert into contact (contact_id,name,email,phone,create_time)
+		VALUES (REPLACE(UUID(),"-",""),#{name},#{email},#{phone},Now())
+	</insert>
+	
+</mapper>
+

@@ -1,0 +1,337 @@
+    <script src="${rc.contextPath}/statics/js/header.js"></script>
+	
+    <div class="top-link">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 col-md-offset-3 col-sm-9 hidden-xs" style="margin-left: 18%;width: 70%;">
+                    <div class="site-option call-support span-title">
+                    	<span>X SHOES SHOP · 创造无限可能</span>
+                    </div>
+                    <div class="call-support">
+                    	<div id="loginArea" style="float:right;margin-right:1px;">
+	                    	<span>登录探索更多世界 | </span>
+	                    	<a href="${rc.contextPath}/login.html"><span style="color:red;">Log in</span></a>
+	                    	<i class="fa fa-user" aria-hidden="true"></i>
+                    	</div>
+                    	<div id="loginArea-login" style="float:right;margin-right:1px;">
+                    		<span>欢迎来到潮流之境 | </span>
+                    		<span id="vipTrue">尊贵的VIP | </span>
+	                    	<span id="user_name" style="color:red"></span>
+                    		<i class="fa fa-user" aria-hidden="true"></i>
+                    	</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-3" style="float: right;width: 12%;">
+                    <div class="dashboard">
+                    	<div>
+                    	</div>
+                        <div class="account-menu">
+                            <ul id="account-menu-nologin" class="account-menu-nologin">
+                                <li class="account-menu-li" style="border-right: 1px solid #cecece;">
+                                    <a href="#">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                    <ul>
+                                        <li><a href="${rc.contextPath}/blog.html">Blog</a></li>
+                                        <li><a href="${rc.contextPath}/login.html">Log in</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul id="account-menu-login" class="account-menu-login">
+                                <li class="account-menu-li">
+                                    <a href="#">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                    <ul>
+                                        <li><a href="${rc.contextPath}/my-account.html">my account</a></li>
+                                        <li><a href="${rc.contextPath}/wishlist.html">my wishlist</a></li>
+                                        <li><a href="${rc.contextPath}/cart.html">my cart</a></li>
+                                        <li><a href="${rc.contextPath}/checkout.html">Checkout</a></li>
+                                        <li><a href="${rc.contextPath}/blog.html">Blog</a></li>
+                                        <li><a id="logout" href="javascript:;" >Log out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="cart-menu" class="cart-menu">
+                            <ul>
+                                <li>
+                                <a href="${rc.contextPath}/cart.html"> 
+                                	<img src="${rc.contextPath}/statics/img/icon-cart.png" alt=""> 
+                                	<span id="cartNum">2</span> 
+                                </a>
+                                    <div class="cart-info">
+                                        <ul id="cartList">
+                                            <li v-for="cart in cartList">
+                                                <div class="cart-img" >
+                                                    <img v-bind:src="cart.imgsrc" alt="">
+                                                </div>
+                                                <div class="cart-details">
+                                                    <a v-bind:href="[${rc.contextPath}/+'single-product.html?goodId='+cart.goodId]">{{cart.goodName}}</a>
+                                                    <p style="color: #ccc">{{cart.goodColor}}</p>
+                                                    <p style="color: red;">{{cart.goodNums}}x{{cart.goodPrice}}</p>
+                                                </div>
+                                                <!-- <div class="btn-edit"></div>
+                                                <div class="btn-remove"></div> -->
+                                            </li>
+                                            
+                                        </ul>
+                                        <h3>这里最多只显示 <b>5</b> 条数据 <span> </span></h3>
+                                        <a href="${rc.contextPath}/cart.html" class="checkout">Read more</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mainmenu-area product-items">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="${rc.contextPath}/statics/img/xlogo.png" alt="XSS|无限可能">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="mainmenu" style="margin-left: 60px;">
+                        <nav>
+                            <ul style="float:right;">
+                                <li><a href="${rc.contextPath}/index.html">Home</a>
+                                    <div class="sub-menu" style="display:none;">
+                                        <span>
+                                            <a href="${rc.contextPath}/index.html">Home</a>
+                                        </span>
+                                        <!-- <span>
+                                            <a href="${rc.contextPath}/index-2.html">Home-2</a>
+                                        </span> -->
+                                    </div>
+                                </li>
+                                <li class="mega-shop"><a href="${rc.contextPath}/shop.html">GUIDE</a>
+                                    <div class="mega-menu" style="left:-80px;width:730px;">
+                                        <div class="part-1">
+                                            <span>
+                                                <a href="javascript:;">类型丰富</a>
+                                                <a class="menuItem" href="javascript:;">跑 步</a>
+                                                <a class="menuItem" href="javascript:;">篮 球</a>
+                                                <a class="menuItem" href="javascript:;">足 球</a>
+                                                <a class="menuItem" href="javascript:;">休 闲</a>
+                                            </span>
+                                            <span>
+                                                <a href="javascript:;">大牌云集</a>
+                                                <a class="menuItem" href="javascript:;">Nike</a>
+                                                <a class="menuItem" href="javascript:;">Adidas</a>
+                                                <a class="menuItem" href="javascript:;">Lining</a>
+                                                <a class="menuItem" href="javascript:;">Puma</a>
+                                            </span>
+                                            <span>
+                                                <a href="javascript:;">风格多样</a>
+                                                <a class="menuItem" href="javascript:;">运 动</a>
+                                                <a class="menuItem" href="javascript:;">机 能</a>
+                                                <a class="menuItem" href="javascript:;">板 鞋</a>
+                                                <a class="menuItem" href="javascript:;">老爹鞋</a>
+                                            </span>
+                                            <span>
+                                                <a href="javascript:;">适用人群</a>
+                                                <a class="menuItem" href="javascript:;">男 子</a>
+                                                <a class="menuItem" href="javascript:;">女 子</a>
+                                                <a class="menuItem" href="javascript:;">儿 童</a>
+                                                <a class="menuItem" href="javascript:;">不 限</a>
+                                            </span>
+                                        </div>
+                                        <div class="part-2">
+                                            <a href="#">
+                                                <img src="${rc.contextPath}/statics/img/banner/menu-banner.png" >
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="mega-men"><a href="${rc.contextPath}/shop.html">Men</a>
+                                    <div class="mega-menu men">
+                                        <span>
+                                              <a href="javascript:;">男子运动</a>
+                                              <a class="menuItemMan" href="javascript:;">跑 步</a>
+                                              <a class="menuItemMan" href="javascript:;">篮 球</a>
+                                              <a class="menuItemMan" href="javascript:;">足 球</a>
+                                              <a class="menuItemMan" href="javascript:;">棒 球</a>
+                                          </span>
+                                          <span>
+                                              <a href="javascript:;">男子休闲</a>
+                                              <a class="menuItemMan" href="javascript:;">板 鞋</a>
+                                              <a class="menuItemMan" href="javascript:;">马丁靴</a>
+                                              <a class="menuItemMan" href="javascript:;">袜套鞋</a>
+                                              <a class="menuItemMan" href="javascript:;">老爹鞋</a>
+                                          </span>
+                                          <span>
+                                              <a href="javascript:;">男子潮流</a>
+                                              <a class="menuItemMan" href="javascript:;">机能鞋</a>
+                                              <a class="menuItemMan" href="javascript:;">洞洞鞋</a>
+                                              <a class="menuItemMan" href="javascript:;">拖 鞋</a>
+                                          </span>
+                                    </div>
+                                </li>
+                                <li class="mega-women"><a href="${rc.contextPath}/shop.html">WOMEN</a>
+                                    <div class="mega-menu women">
+                                        <span>
+                                              <a href="javascript:;">女子运动</a>
+                                              <a class="menuItemWoman" href="javascript:;">跑 步</a>
+                                              <a class="menuItemWoman" href="javascript:;">篮 球</a>
+                                              <a class="menuItemWoman" href="javascript:;">足 球</a>
+                                              <a class="menuItemWoman" href="javascript:;">瑜 伽</a>
+                                          </span>
+                                          <span>
+                                              <a href="javascript:;">女子休闲</a>
+                                              <a class="menuItemWoman" href="javascript:;">板 鞋</a>
+                                              <a class="menuItemWoman" href="javascript:;">马丁靴</a>
+                                              <a class="menuItemWoman" href="javascript:;">袜套鞋</a>
+                                              <a class="menuItemWoman" href="javascript:;">老爹鞋</a>
+                                          </span>
+                                          <span>
+                                              <a href="javascript:;">女子潮流</a>
+                                              <a class="menuItemWoman" href="javascript:;">机能鞋</a>
+                                              <a class="menuItemWoman" href="javascript:;">洞洞鞋</a>
+                                              <a class="menuItemWoman" href="javascript:;">拖鞋</a>
+                                          </span>
+                                    </div>
+                                </li>
+                                <!-- <li class="mega-jewellery"><a href="${rc.contextPath}/shop.html">ACCESSORIES</a>
+                                    <div class="mega-menu jewellery">
+                                        <span>
+                                            <a href="#">Rings</a>
+                                        </span>
+                                    </div>
+                                </li> -->
+                                <li><a href="${rc.contextPath}/shop.html">X-SHOES-SHOP</a></li>
+                                <li><a href="#">Pages</a>
+                                    <div class="sub-menu pages">
+                                    	<span>
+                                            <a href="${rc.contextPath}/shop.html">Shop</a>
+                                        </span>
+                                        <span>
+                                            <a href="${rc.contextPath}/blog.html">Blog</a>
+                                        </span>
+                                        <span>
+                                            <a href="${rc.contextPath}/contact.html">Contact</a>
+                                        </span>
+                                        <span>
+                                            <a href="${rc.contextPath}/about-us.html">About us</a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="mobile-menu">
+                        <nav>
+                            <ul>
+                                <li><a href="${rc.contextPath}/index.html">Home</a>
+                                    <ul>
+                                        <li><a href="${rc.contextPath}/index.html">Home 1</a></li>
+                                        <li><a href="${rc.contextPath}/index-2.html">Home 2</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="${rc.contextPath}/shop.html">Women</a>
+                                    <ul>
+                                        <li><a href="#">Dresses</a>
+                                            <ul>
+                                                <li><a href="#">Coctail</a></li>
+                                                <li><a href="#">day</a></li>
+                                                <li><a href="#">evening</a></li>
+                                                <li><a href="#">sports</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">shoes</a>
+                                            <ul>
+                                                <li><a href="#">Sports</a></li>
+                                                <li><a href="#">run</a></li>
+                                                <li><a href="#">sandals</a></li>
+                                                <li><a href="#">boots</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">handbags</a>
+                                            <ul>
+                                                <li><a href="#">Blazers</a></li>
+                                                <li><a href="#">table</a></li>
+                                                <li><a href="#">coats</a></li>
+                                                <li><a href="#">kids</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">clothing</a>
+                                            <ul>
+                                                <li><a href="#">T-shirts</a></li>
+                                                <li><a href="#">coats</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                                <li><a href="#">jeans</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="shop.html">Men</a>
+                                    <ul>
+                                        <li><a href="#">Bags</a>
+                                            <ul>
+                                                <li><a href="#">Bootees bag</a></li>
+                                                <li><a href="#">Blazers</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">clothing</a>
+                                            <ul>
+                                                <li><a href="#">coats</a></li>
+                                                <li><a href="#">T-shirts</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Lingerie</a>
+                                            <ul>
+                                                <li><a href="#">Bands</a></li>
+                                                <li><a href="#">Furniture</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="shop.html">Foorwear</a>
+                                    <ul>
+                                        <li><a href="#">footwear men</a>
+                                            <ul>
+                                                <li><a href="#">gifts</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">footwear women</a>
+                                            <ul>
+                                                <li><a href="#">boots</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="shop.html">Jewellery</a>
+                                    <ul>
+                                        <li><a href="#">Rings</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="shop.html">Accessories</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul>
+                                        <li><a href="about-us.html">About us</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
+                                        <li><a href="blog-details.html">Blog Details</a></li>
+                                        <li><a href="cart.html">Cart</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="my-account.html">My account</a></li>
+                                        <li><a href="shop.html">Shop</a></li>
+                                        <li><a href="single-product.html">Single Shop</a></li>
+                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

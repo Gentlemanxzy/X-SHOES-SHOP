@@ -1,0 +1,230 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <#include "tools.html"/>
+
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/main.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+       
+       <style>
+       		.ratings {
+ 			   margin-top: 15px;
+			}
+       </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <!-- header area start -->
+        <header>
+        	<div id ="headerid"></div>
+        </header>
+        <!-- header area end -->
+        
+        <!-- wishlist area start -->
+        <div class="wishlist-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="location">
+                            <ul>
+                                <li><a href="${rc.contextPath}/index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><strong> wishlist(心愿清单) </strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="product-sidebar">
+                            <div class="sidebar-title">
+                                <h2>Shopping Options</h2>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>Category</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul>
+                                        <li><a href="#">跑步</a></li>
+                                        <li><a href="#">篮球</a></li>
+                                        <li><a href="#">足球</a></li>
+                                        <li><a href="#">休闲</a></li>
+                                        <li><a href="#">板鞋</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>Color</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul>
+                                        <li><a href="#">黑色</a></li>
+                                        <li><a href="#">蓝色</a></li>
+                                        <li><a href="#">白色</a></li>
+                                        <li><a href="#">红色</a></li>
+                                        <li><a href="#">灰色</a></li>
+                                        <li><a href="#">紫色</a></li>
+                                        <li><a href="#">金色</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>Manufacturer</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul id="brandList">
+                                    	<li v-for="list in brandList"><a href="#">{{list.brandName}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="wishlist-heading">
+                            <h2 style="margin-top:0px;">Wishlist - 心愿清单</h2>
+                        </div>
+                        <div class="wishlist-content">
+                            
+                            <div role="tabpanel" class="tab-pane active in fade home2" id="wishlist">
+                                 <div class="product-catagory wish-catagory" v-for="(shop, index) in shopList" :key="shop.goodId">
+                                     <div class="single-list-product">
+                                         <div class="col-sm-4" style="width:200px;height:200px;">
+                                             <div class="list-product-img wishGoodImg" >
+                                                 <a v-bind:href="['single-product.html?goodId='+shop.goodId]">
+                                                     <img class="wishGoodImg" v-bind:src="shop.imgsrc" alt="" v-bind:title="shop.goodName">
+                                                 </a>
+                                             </div>
+                                         </div>
+                                         <div class="col-sm-8" style="margin-left:35px;">
+                                             <div class="list-product-info">
+                                                 <a v-bind:href="['single-product.html?goodId='+shop.goodId]" class="list-product-name"> {{shop.goodName}}</a>
+                                                 <span class="good-tags">{{shop.goodTags}}</span>
+                                                 <div class="price-rating">
+	                                                <template v-if="shop.goodIsDiscount == 1">
+	                                                   <span style="font-size:20px;">￥{{(shop.goodPrice*(shop.discountNum/10)).toFixed(2)}}</span>
+	                                               	<span style="font-size:14px;" class="old-price" v-if="shop.goodIsDiscount == 1">￥{{shop.goodPrice}}</span>
+	                                              	</template>
+	                                              	<template v-else>
+	                                                   <span>￥{{shop.goodPrice}}</span>
+	                                              	</template>
+	                                                     <div class="ratings">
+	                                                         <i v-if="(shop.goodScore/2)>=1" class="fa fa-star"></i>
+	                                                      <i v-else-if="(shop.goodScore/2)==0.5" class="fa fa-star-half-o"></i>
+	                                                      <i v-else class="fa fa-star-o"></i>
+	                                                      
+	                                                      <i v-if="(shop.goodScore/2)>=2" class="fa fa-star"></i>
+	                                                      <i v-else-if="(shop.goodScore/2)==1.5" class="fa fa-star-half-o"></i>
+	                                                      <i v-else class="fa fa-star-o"></i>
+	                                                      
+	                                                      <i v-if="(shop.goodScore/2)>=3" class="fa fa-star"></i>
+	                                                      <i v-else-if="(shop.goodScore/2)==2.5" class="fa fa-star-half-o"></i>
+	                                                      <i v-else class="fa fa-star-o"></i>
+	                                                      
+	                                                      <i v-if="(shop.goodScore/2)>=4" class="fa fa-star"></i>
+	                                                      <i v-else-if="(shop.goodScore/2)==3.5" class="fa fa-star-half-o"></i>
+	                                                      <i v-else class="fa fa-star-o"></i>
+	                                                      
+	                                                      <i v-if="(shop.goodScore/2)>=5" class="fa fa-star"></i>
+	                                                      <i v-else-if="(shop.goodScore/2)==4.5" class="fa fa-star-half-o"></i>
+	                                                      <i v-else class="fa fa-star-o"></i>
+                                                         <a class="review">{{shop.goodScore}} 分</a>
+                                                         <a class="add-review">{{shop.goodFavs}}人已添加至心愿栏</a>
+                                                     </div>
+                                                 </div>
+                                                 <div class="list-product-details">
+                                                 <fieldset>
+													  <!-- <legend class="goods-legend">商品简介：</legend>
+														<div class="layui-input-block" style="margin-left:0px;margin-bottom:5px;">
+														    <textarea readonly="readonly" title="·xss·" class="layui-textarea" style="font-size:13px;" name="content" lay-verify="content">
+														    	{{shop.goodDescription}}
+														    </textarea>
+														 </div> -->
+												 </fieldset>
+												 
+												 <!-- <button type="submit" value="Continue" class="check-button">商品详情</button> -->
+                                                 </div>
+                                                 
+                                                 <div>
+													 <button type="button" id="delBtn" name="del" @click="delFavBtn(shop.goodId);" class="check-button" v-bind:value="shop.shopId">删      除</button>
+													 <button type="button" id="addCartBtn" name="addToCar" class="check-button" @click="addCartBtn(shop.goodId);" v-bind:value="shop.shopId">加入购物车</button>
+												 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                            <div class="col-md-12">
+                                <div class="toolbar-bottom">
+                                	<div id="pagebar">分页分页</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- wishlist area end -->
+        
+        <!-- footer area start -->
+        <div id="footerdiv">
+        
+        </div>
+        <!-- footer area end -->
+
+        <!-- quickview product start -->
+        <!-- jquery
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+        <!-- bootstrap JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/bootstrap.min.js"></script>
+        <!-- wow JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/wow.min.js"></script>
+        <!-- price-slider JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-price-slider.js"></script>
+        <!-- nivoslider JS -- 幻灯片效果
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/lib/js/jquery.nivo.slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/home.js"></script>
+        <!-- meanmenu JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.meanmenu.js"></script>
+        <!-- owl.carousel JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/owl.carousel.min.js"></script>
+        <!-- elevatezoom JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.elevatezoom.js"></script>
+        <!-- scrollUp JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.scrollUp.min.js"></script>
+        <!-- plugins JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/plugins.js"></script>
+        <!-- main JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/main.js"></script>
+        <!-- layui -->
+        <script type="text/javascript" src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+        <!-- layer js -->
+        <script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+        <!-- index.js -->
+        <script src="${rc.contextPath}/statics/js/wishlist.js"></script>
+    </body>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var baseURL = $("#baseURL").val();
+    		$("#headerid").load(baseURL+"/header.html");
+    		$("#footerdiv").load(baseURL+"/footer.html");
+    	});
+    </script>
+</html>

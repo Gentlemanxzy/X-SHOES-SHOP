@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xss.mapper.IndexMapper">
+	
+    <select id="getShopList" parameterType="Goods" resultType="Goods">
+    	select * from goods where status = 1
+    	
+    	<if test="goodIsNew !='' and goodIsNew !=null">
+    		and good_isNew = #{goodIsNew}
+    	</if>
+    	<if test="goodIsHot!='' and goodIsHot !=null">
+    		and good_isHot = #{goodIsHot}
+    	</if>
+    	<if test="goodIsDiscount!='' and goodIsDiscount !=null">
+    		and good_isDiscount = #{goodIsDiscount}
+    	</if>
+    	<if test="goodScore!='' and goodScore !=null">
+    		and good_score &gt;= #{goodScore}
+    	</if>
+    	<if test="goodFit!='' and goodFit !=null">
+    		and good_fit = #{goodFit}
+    	</if>
+    	<if test="goodTags!='' and goodTags!=null">
+    		and good_tags like CONCAT('%',#{goodTags},'%')
+    	</if>
+    	order by good_score desc
+    	limit 6
+    </select>
+    
+    <select id="getShopTotal" parameterType="GoodsDto" resultType="int">
+    	select count(1) from goods where status = 1
+    	<if test="minPrice != '' and  minPrice != null">
+        	and good_price &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != '' and  maxPrice != null">
+        	and good_price &lt;= #{maxPrice}
+        </if>
+    </select>
+    
+    <select id="getBrandList" resultType="Brand">
+    	select * from brand where status = 0
+    	order by brand_score desc
+    	limit 8
+    </select>
+    
+    <select id="getGoodImgs" parameterType="java.lang.String" resultType="Images">
+    	select * from images where good_id = #{goodId}
+    	order by img_src
+    </select>
+    
+    <select id="getShopListFavs" resultType="Goods">
+    	select * from goods ORDER BY good_favs Desc limit 0,8
+    </select>
+    
+    <select id="getShopListBySearch" resultType="Goods" parameterType="java.lang.String">
+    	select * from goods where good_name  like CONCAT('%',#{keyword},'%') 
+    	or good_series  like CONCAT('%',#{keyword},'%')
+    	or good_description like CONCAT('%',#{keyword},'%')
+    	or good_tags like CONCAT('%',#{keyword},'%')
+    </select>
+    
+</mapper>

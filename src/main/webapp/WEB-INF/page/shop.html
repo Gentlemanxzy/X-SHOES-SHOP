@@ -1,0 +1,372 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+    	<meta charset="utf-8">
+		<!-- 导入所需要的公共的css和baseURL和部分js -->
+		<#include "tools.html"/>
+
+        <!-- favicon
+        ============================================ -->
+        <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"> -->
+
+        <link href='http://fonts.googleapis.com/css?family=Norican' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/main.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/style.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/css/responsive.css">
+        <link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
+        <!-- modernizr JS
+        ============================================ -->
+        <script src="${rc.contextPath}/statics/js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <!-- header area start -->
+        <header>
+        	<div id ="headerid"></div>
+        </header>
+        <!-- header area end -->
+        <!-- product items banner start -->
+        <div class="product-banner" style="position: relative;top: -80px;">
+            <img src="${rc.contextPath}/statics/img/product/shopbanner.jpg" alt="">
+        </div>
+        <!-- product items banner end -->
+        <!-- product main items area start -->
+        <div class="product-main-items">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="location">
+                            <ul>
+                                <li><a href="${rc.contextPath}/index.html" title="go to homepage">Home<span>/</span></a>  </li>
+                                <li><strong> shop</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="product-sidebar">
+                            <div class="sidebar-title">
+                                <h2>Shopping Options</h2>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>Category(类型)</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul >
+                                        <li><a href="#">跑步</a></li>
+                                        <li><a href="#">篮球</a></li>
+                                        <li><a href="#">足球</a></li>
+                                        <li><a href="#">休闲</a></li>
+                                        <li><a href="#">板鞋</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>Color(颜色)</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul>
+                                        <li><a href="#">黑色</a></li>
+                                        <li><a href="#">蓝色</a></li>
+                                        <li><a href="#">白色</a></li>
+                                        <li><a href="#">红色</a></li>
+                                        <li><a href="#">灰色</a></li>
+                                        <li><a href="#">紫色</a></li>
+                                        <li><a href="#">金色</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-sidebar">
+                                <div class="single-sidebar-title">
+                                    <h3>品牌分类</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <ul id="brandList">
+                                    	<li v-for="list in brandList"><a href="#">{{list.brandName}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-sidebar price">
+                                <div class="single-sidebar-title">
+                                    <h3>Price</h3>
+                                </div>
+                                <div class="single-sidebar-content">
+                                    <div class="price-range" id="price-range-div">
+                                    	<div id="price-range"></div>
+                                        <button type="submit" onclick="initShopByPrice();"> <span>search</span> </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="banner-left">
+                            	<h3>A·D</h3>
+                            	<br>
+                            	<p>李宁-天猫双十一限定款-盘古</p>
+                                <a href="#">
+                                    <img src="${rc.contextPath}/statics/img/goodsImg/panguAD.jpg" alt="">
+                                </a>
+                                <p>AF1×CLOT·黑丝绸</p>
+                                <a href="#">
+                                    <img src="${rc.contextPath}/statics/img/goodsImg/BlacksichouAD.gif" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="product-bar">
+                            <ul class="product-navigation" role="tablist">
+                                <li role="presentation" class="active gird">
+                                    <a href="#list" aria-controls="list" role="tab" data-toggle="tab">
+                                        <span>
+                                            <img class="primary" src="${rc.contextPath}/statics/img/product/list-primary.png" alt="">
+                                            <img class="secondary" src="${rc.contextPath}/statics/img/product/list-secondary.png" alt="">
+                                        </span>
+                                        List
+                                    </a>
+                                </li>
+                                <!-- <li role="presentation" class="list">
+
+                                    <a href="#gird" aria-controls="gird" role="tab" data-toggle="tab">
+                                        <span>
+                                            <img class="primary" src="${rc.contextPath}/statics/img/product/grid-primary.png" alt="">
+                                            <img class="secondary" src="${rc.contextPath}/statics/img/product/grid-secondary.png" alt="">
+                                        </span>
+                                        Gird
+                                    </a>
+                                </li> -->
+                            </ul>
+                            <div class="sort-by" id="sort-by">
+                                <label>Sort By</label>
+                                <select name="sort" id="sortSelect">
+                                    <option value="" selected >默认</option>
+                                    <option value="good_price">价格</option>
+                                    <option value="good_score">评分</option>
+                                </select>
+                                <select name="sort" id="sortSelectDesc" class="isHide">
+                                	<option value="asc">升序 ↑ </option>
+                                	<option value="desc">降序 ↓ </option>
+                                </select>
+                                <!-- <a href="#" title="Set Descending Direction">
+                                    <img src="${rc.contextPath}/statics/img/product/i_asc_arrow.gif" alt="">
+                                </a> -->
+                            </div>
+                            <div class="limit-product" style="display: none;">
+                                <label>Show</label>
+                                <select id="pageNumSelect" name="show">
+                                    <option value="6" selected>6</option>
+                                    <option value="9">9</option>
+                                    <option value="12">12</option>
+                                </select>
+                                per page
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="product-content">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane  fade in home2" id="gird">
+                                        <template v-for="(shop, index) in shopList" :key="shop.goodId" @click="">
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="single-product">
+                                            	
+                                                <div  v-if="shop.goodIsNew == 1" class="level-pro-new">
+                                                    <span>new</span>
+                                                </div>
+                                                <div  v-else-if="shop.goodIsHot == 1" class="level-pro-hot">
+                                                    <span>hot</span>
+                                                </div>
+                                                <div  v-else-if="shop.goodIsDiscount == 1" class="level-pro-off">
+                                                    <span>off-{{shop.discountNum}}折</span>
+                                                </div>
+                                                <div  v-else class="level-pro-sale">
+                                                    <span>现货</span>
+                                                </div>
+                                                
+                                                <div class="product-img">
+                                                    <a href="single-product.html">
+                                                        <img src="${rc.contextPath}/statics/img/product/25.png" alt="" class="primary-img">
+                                                        <img src="${rc.contextPath}/statics/img/product/26.png" alt="" class="secondary-img">
+                                                    </a>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="button" class="cart-btn" id="addToCartBtn" title="Add to cart">add to cart</button>
+                                                    <ul class="add-to-link">
+                                                        <li><a class="modal-view" data-target="#productModal" data-toggle="modal" href="#"> <i class="fa fa-search"></i></a></li>
+                                                        <li><a href="#"> <i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a href="#"> <i class="fa fa-refresh"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product-price">
+                                                    <div class="product-name">
+                                                        <a href="single-product.html" title="Fusce aliquam">{{shop.goodName}}</a>
+                                                    </div>
+                                                    <div class="price-rating">
+                                                    	<template v-if="shop.goodIsDiscount == 1">
+	                                                        <span >￥{{(shop.goodPrice*(shop.discountNum/10)).toFixed(2)}}</span>
+	                                                    	<span class="old-price" v-if="shop.goodIsDiscount == 1">￥{{shop.goodPrice}}</span>
+                                                    	</template>
+                                                    	<template v-else>
+	                                                        <span >￥{{shop.goodPrice}}</span>
+                                                    	</template>
+                                                    	
+                                                        <div class="ratings">
+                                                            <i v-if="(shop.goodScore/2)>=1" class="fa fa-star"></i>
+                                                            <i v-else-if="(shop.goodScore/2)==0.5" class="fa fa-star-half-o"></i>
+                                                            <i v-else class="fa fa-star-o"></i>
+                                                            
+                                                            <i v-if="(shop.goodScore/2)>=2" class="fa fa-star"></i>
+                                                            <i v-else-if="(shop.goodScore/2)==1.5" class="fa fa-star-half-o"></i>
+                                                            <i v-else class="fa fa-star-o"></i>
+                                                            
+                                                            <i v-if="(shop.goodScore/2)>=3" class="fa fa-star"></i>
+                                                            <i v-else-if="(shop.goodScore/2)==2.5" class="fa fa-star-half-o"></i>
+                                                            <i v-else class="fa fa-star-o"></i>
+                                                            
+                                                            <i v-if="(shop.goodScore/2)>=4" class="fa fa-star"></i>
+                                                            <i v-else-if="(shop.goodScore/2)==3.5" class="fa fa-star-half-o"></i>
+                                                            <i v-else class="fa fa-star-o"></i>
+                                                            
+                                                            <i v-if="(shop.goodScore/2)>=5" class="fa fa-star"></i>
+                                                            <i v-else-if="(shop.goodScore/2)==4.5" class="fa fa-star-half-o"></i>
+                                                            <i v-else class="fa fa-star-o"></i>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    	</template>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane active in fade home2" id="list">
+                                        <div class="product-catagory" v-for="(shop, index) in shopList" :key="shop.goodId">
+                                            <div class="single-list-product">
+                                                <div class="col-sm-4">
+                                                <div  v-if="shop.goodIsNew == 1" class="level-pro-new">
+                                                    <span>new</span>
+                                                </div>
+                                                <div  v-else-if="shop.goodIsHot == 1" class="level-pro-hot">
+                                                    <span>hot</span>
+                                                </div>
+                                                <div  v-else-if="shop.goodIsDiscount == 1" class="level-pro-off">
+                                                    <span>off-{{shop.discountNum}}折</span>
+                                                </div>
+                                                <div  v-else class="level-pro-sale">
+                                                    <span>现货</span>
+                                                </div>
+                                                    <div class="list-product-img">
+                                                        <a v-bind:href="[${rc.contextPath}/+'single-product.html?goodId='+shop.goodId]">
+                                                            <img v-bind:src="shop.imgsrc" alt="" v-bind:title="shop.goodName">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="list-product-info">
+                                                        <a v-bind:href="[${rc.contextPath}/+'single-product.html?goodId='+shop.goodId]" class="list-product-name"> {{shop.goodName}}</a>
+                                                        <span class="good-tags">{{shop.goodTags}}</span>
+                                                        <div class="price-rating">
+                                                        	<template v-if="shop.goodIsDiscount == 1">
+		                                                        <span style="font-size:20px;">￥{{(shop.goodPrice*(shop.discountNum/10)).toFixed(2)}}</span>
+		                                                    	<span style="font-size:14px;" class="old-price" v-if="shop.goodIsDiscount == 1">￥{{shop.goodPrice}}</span>
+	                                                    	</template>
+	                                                    	<template v-else>
+		                                                        <span >￥{{shop.goodPrice}}</span>
+	                                                    	</template>
+                                                            <div class="ratings">
+                                                                <i v-if="(shop.goodScore/2)>=1" class="fa fa-star"></i>
+	                                                            <i v-else-if="(shop.goodScore/2)==0.5" class="fa fa-star-half-o"></i>
+	                                                            <i v-else class="fa fa-star-o"></i>
+	                                                            
+	                                                            <i v-if="(shop.goodScore/2)>=2" class="fa fa-star"></i>
+	                                                            <i v-else-if="(shop.goodScore/2)==1.5" class="fa fa-star-half-o"></i>
+	                                                            <i v-else class="fa fa-star-o"></i>
+	                                                            
+	                                                            <i v-if="(shop.goodScore/2)>=3" class="fa fa-star"></i>
+	                                                            <i v-else-if="(shop.goodScore/2)==2.5" class="fa fa-star-half-o"></i>
+	                                                            <i v-else class="fa fa-star-o"></i>
+	                                                            
+	                                                            <i v-if="(shop.goodScore/2)>=4" class="fa fa-star"></i>
+	                                                            <i v-else-if="(shop.goodScore/2)==3.5" class="fa fa-star-half-o"></i>
+	                                                            <i v-else class="fa fa-star-o"></i>
+	                                                            
+	                                                            <i v-if="(shop.goodScore/2)>=5" class="fa fa-star"></i>
+	                                                            <i v-else-if="(shop.goodScore/2)==4.5" class="fa fa-star-half-o"></i>
+	                                                            <i v-else class="fa fa-star-o"></i>
+                                                                <a class="review">{{shop.goodScore}} 分</a>
+                                                                <a class="add-review">{{shop.goodFavs}}人已添加至心愿栏</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="list-product-details">
+                                                        <fieldset>
+														  <legend class="goods-legend">商品简介：</legend>
+														  	<p>{{shop.goodDescription}}                                                         
+																<a v-bind:href="[${rc.contextPath}/+'single-product.html?goodId='+shop.goodId]">了解 详情</a> 
+															</p>
+														</fieldset>
+															
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="toolbar-bottom">
+                                	<div id="pagebar"></div>
+                                    <!-- <ul>
+                                        <li><span>Pages:</span></li>
+                                        <li class="current"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#"> <img src="${rc.contextPath}/statics/img/product/pager_arrow_right.gif" alt=""> </a></li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- product main items area end -->
+
+        <!-- footer area start -->
+        <div id="footerdiv">
+        
+        </div>
+        
+        <!-- footer area end -->
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-1.12.1.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/bootstrap.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/wow.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery-price-slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/js/jquery.nivo.slider.js"></script>
+        <script src="${rc.contextPath}/statics/lib/home.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.meanmenu.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/owl.carousel.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.elevatezoom.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/jquery.scrollUp.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/plugins.js"></script>
+        <script src="${rc.contextPath}/statics/js/main.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
+        <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
+        <script src="${rc.contextPath}/statics/js/shop.js"></script>
+        <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+    </body>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var baseURL = $("#baseURL").val();
+    		$("#headerid").load(baseURL+"/header.html");
+    		$("#footerdiv").load(baseURL+"/footer.html");
+    	});
+    
+    </script>
+</html>
