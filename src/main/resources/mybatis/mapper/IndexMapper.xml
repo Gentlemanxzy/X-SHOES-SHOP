@@ -54,7 +54,7 @@
     </select>
     
     <select id="getShopListBySearch" resultType="Goods" parameterType="java.lang.String">
-    	select * from goods where good_name  like CONCAT('%',#{keyword},'%') 
+    	select * from goods where good_name like CONCAT('%',#{keyword},'%') 
     	or good_series  like CONCAT('%',#{keyword},'%')
     	or good_description like CONCAT('%',#{keyword},'%')
     	or good_tags like CONCAT('%',#{keyword},'%')
