@@ -23,6 +23,9 @@
 		.layui-btn+.layui-btn {
 		    margin-left: 1px;
 		}
+		.areaLi{
+			margin: 20px;
+		}
     </style>
     <body>
         <!--[if lt IE 8]>
@@ -56,7 +59,10 @@
                             
                             <div class="shopping-button">
                                 <div class="continue-shopping">
-                                    <button type="button" onclick="submitBtn();">提交订单</button>
+                                    <button type="button" onclick="submitBtn();">
+                                    	<!-- <a href="#discount-code"> 确认订单 </a> -->
+                                    	确认订单
+                                    </button>
                                     <button type="button" id="delsBtn" onclick="delShopGoods();">批量删除</button>
                                 </div>
                                 <div class="shopping-cart-left">
@@ -67,12 +73,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div id="discount-code" class="row">
                     <div class="col-sm-4">
                         <div class="discount-code">
                             <h3>Discount Codes(折扣码)</h3>
                             <p>Enter your coupon code if you have one.(请输入折扣码)</p>
-                            <input type="text">
+                            <input id="discount-input" type="text">
                             <div class="shopping-button">
                                 <button type="button">使用折扣</button>
                             </div>
@@ -80,65 +86,25 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="estimate-shipping">
-                            <h3>Estimate Shipping and Tax</h3>
-                            <p>Enter your destination to get a shipping estimate.</p>
-                            <form action="#">
-                                <div class="form-box">
-                                    <div class="form-name">
-                                        <label> country <em>*</em> </label>
-                                        <select>
-                                            <option value="1">Afghanistan</option>
-                                            <option value="1">Algeria</option>
-                                            <option value="1">American Samoa</option>
-                                            <option value="1">Australia</option>
-                                            <option value="1">Bangladesh</option>
-                                            <option value="1">Belgium</option>
-                                            <option value="1">Bosnia and Herzegovina</option>
-                                            <option value="1">Chile</option>
-                                            <option value="1">China</option>
-                                            <option value="1">Egypt</option>
-                                            <option value="1">Finland</option>
-                                            <option value="1">France</option>
-                                            <option value="1">United State</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-box">
-                                    <div class="form-name">
-                                        <label> State/Province </label>
-                                        <select>
-                                            <option value="1">Please select region, state or province</option>
-                                            <option value="1">Arizona</option>
-                                            <option value="1">Armed Forces Africa</option>
-                                            <option value="1">California</option>
-                                            <option value="1">Florida</option>
-                                            <option value="1">Indiana</option>
-                                            <option value="1">Marshall Islands</option>
-                                            <option value="1">Minnesota</option>
-                                            <option value="1">New Mexico</option>
-                                            <option value="1">Utah</option>
-                                            <option value="1">Virgin Islands</option>
-                                            <option value="1">West Virginia</option>
-                                            <option value="1">Wyoming</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-box">
-                                    <div class="form-name">
-                                        <label> Zip/Postal Code </label>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="shopping-button">
-                                    <button type="submit">get a quote</button>
-                                </div>
-                            </form>
+                            <h3>选择您的收货地址</h3>
+                            <p>不选则会使用默认地址</p>
+                            <ul id="areaList">
+                            	<li class="areaLi" v-for="area in areaList">
+                            	<div><b>
+									姓名：</b><span>{{area.shopName}}</span> <span
+										style="margin-left: 20px;"><b>联系方式：</b></span><span>{{area.phone}}</span>
+								</div>
+								<div><b>联系地址:</b> {{area.province}} {{area.city}}
+									{{area.area}} {{area.detailAddress}}</div>
+                            	</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="totals">
-                            <p>subtotal <span>$1,540.00</span> </p>
-                            <h3>Grand Total <span>$1,540.00</span></h3>
+                            <p>商品总价 <span id="total-price-1">666</span> </p>
+                            <br>
+                            <h3>最终价格 <span id="total-price-2">888</span></h3>
                             <div class="shopping-button">
                                 <button type="submit">proceed to checkout</button>
                             </div>

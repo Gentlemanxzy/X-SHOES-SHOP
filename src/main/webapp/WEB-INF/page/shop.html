@@ -20,6 +20,10 @@
         <!-- modernizr JS
         ============================================ -->
         <script src="${rc.contextPath}/statics/js/vendor/modernizr-2.8.3.min.js"></script>
+        <style>
+        
+        </style>
+        
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -35,6 +39,17 @@
         <!-- product items banner start -->
         <div class="product-banner" style="position: relative;top: -80px;">
             <img src="${rc.contextPath}/statics/img/product/shopbanner.jpg" alt="">
+            <div class="search-box-shop">
+               <form id="searchForm" action='${rc.contextPath}/index/searchToShop'>
+                   <input id="search_id" type="text" name="keyword" placeholder="" autocomplete="off" />
+                   <button type="button" id="searchBtn">
+                       <i class="fa fa-search"></i>
+                   </button>
+                   <!-- <button type="button" id="x">
+                       <i class="fa fa-times"></i>
+                   </button> -->
+               </form>
+           </div>
         </div>
         <!-- product items banner end -->
         <!-- product main items area start -->
@@ -43,9 +58,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="location">
-                            <ul>
+                            <ul style="width:25%;display:inline-block">
                                 <li><a href="${rc.contextPath}/index.html" title="go to homepage">Home<span>/</span></a>  </li>
                                 <li><strong> shop</strong></li>
+                                <li><strong id="search_key"></strong></li>
                             </ul>
                         </div>
                     </div>
@@ -62,11 +78,11 @@
                                 </div>
                                 <div class="single-sidebar-content">
                                     <ul >
-                                        <li><a href="#">跑步</a></li>
-                                        <li><a href="#">篮球</a></li>
-                                        <li><a href="#">足球</a></li>
-                                        <li><a href="#">休闲</a></li>
-                                        <li><a href="#">板鞋</a></li>
+                                        <li><a class="navItem" href="javascript:;">跑步</a></li>
+                                        <li><a class="navItem" href="javascript:;">篮球</a></li>
+                                        <li><a class="navItem" href="javascript:;">足球</a></li>
+                                        <li><a class="navItem" href="javascript:;">休闲</a></li>
+                                        <li><a class="navItem" href="javascript:;">板鞋</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -76,13 +92,13 @@
                                 </div>
                                 <div class="single-sidebar-content">
                                     <ul>
-                                        <li><a href="#">黑色</a></li>
-                                        <li><a href="#">蓝色</a></li>
-                                        <li><a href="#">白色</a></li>
-                                        <li><a href="#">红色</a></li>
-                                        <li><a href="#">灰色</a></li>
-                                        <li><a href="#">紫色</a></li>
-                                        <li><a href="#">金色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">黑色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">蓝色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">白色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">红色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">灰色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">紫色</a></li>
+                                        <li><a class="colorItem" href="javascript:;">金色</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -92,7 +108,9 @@
                                 </div>
                                 <div class="single-sidebar-content">
                                     <ul id="brandList">
-                                    	<li v-for="list in brandList"><a href="#">{{list.brandName}}</a></li>
+                                    	<li v-for="list in brandList">
+                                    		<a class="listItem" href="javascript:;">{{list.brandName}}</a>
+                                    	</li>
                                     </ul>
                                 </div>
                             </div>
