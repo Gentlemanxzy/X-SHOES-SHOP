@@ -20,6 +20,9 @@
     	<if test="goodFit!='' and goodFit!=null">
     		and good_fit = #{goodFit}
     	</if>
+    	<if test="goodColor!='' and goodColor!=null">
+    		and good_color like CONCAT('%',#{goodColor},'%') 
+    	</if>
     	
     	<if test="orderBy != '' and orderBy !=null">
 	    	order by ${orderBy} ${sort}
@@ -43,6 +46,9 @@
     	</if>
     	<if test="goodFit!='' and goodFit!=null">
     		and good_fit = #{goodFit}
+    	</if>
+    	<if test="goodColor!='' and goodColor!=null">
+    		and good_color like CONCAT('%',#{goodColor},'%') 
     	</if>
     </select>
     
