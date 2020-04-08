@@ -174,3 +174,14 @@ function addCartBtn(goodId){
 		  }
 	});
 };
+
+$(".navItem").click(function(){
+	var key = $(this).text().trim();
+	key = key.replace(" ",'');
+	window.location.href = baseURL+"/shop.html?keyword="+key;
+});
+
+$(".colorItem").click(function(){
+	var color = $(this).text().trim().replace("色",'');
+	window.location.href = baseURL+"/shop.html?color="+color;
+});

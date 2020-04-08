@@ -443,7 +443,7 @@ function linkMethod(value){
 			});
 			break;
 		case 'weibo':
-			layer.msg("微博乃害人之处");
+			layer.msg("微博乃害人之处，避而 远之");
 			break;
 		case 'github':
 			layer.msg(value+",暂未开放");

@@ -179,8 +179,19 @@ $(document).ready(function(){
 			async : "false" , 
 			success : function(data){
 				if(data.code=="200"){// 返回成功
+					var user = null;
+					try{
+						user = data.map.userInfo;
+					}catch(Exception){
+						$("#userLogin").addClass("errorInput");
+						$("#psdLogin").addClass("errorInput");
+						$("#psdLogin").val("");
+						layer.msg('账号或密码错误，请重试···', function(){
+						});
+						return;
+					};
 					
-					if(data.map.userInfo != null){// 同时查到了数据
+					if(user != null){// 同时查到了数据
 						var flag = false;
 						// 获取当前时间戳
 						var timestamp=new Date().getTime();

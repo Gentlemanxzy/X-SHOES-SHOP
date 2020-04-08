@@ -15,28 +15,37 @@ var shopVm = new Vue({
 });
 var keyword = '';
 var sex = '';
+var color = '';
 
 $(document).ready(function(){
 	baseURL = $("#baseURL").val();
 	
-	// 如果是从首页过来有关键词的话
-	/*var sessionStorage = window.sessionStorage;
-	var keyword = sessionStorage.getItem("keyword");
-	if(keyword!='' && keyword!=null){
-		layer.msg(keyword);
-	}*/
 	var keyword = getUrlParam("keyword");
 	var sex = getUrlParam("sex");
+	var color = getUrlParam("color");
+	
+	let search_key = '';
+	
 	if(sex==null){
 		sex = '';
+	}else{
+		search_key = sex;
+	}
+	if(color == null){
+		color = '';
+	}else{
+		search_key = search_key+" "+color+"色";
 	}
 	
 	if(keyword!='' && keyword!=null){ 	// 如果有关键词
-		//layer.msg(keyword);
-		initGoods(pageNums, pageSize, orderBy ,sort , keyword,sex);
+		search_key = search_key+" "+keyword;
+		$("#search_key").text("/ 搜索条件： "+search_key.trim());
+		initGoods(pageNums, pageSize, orderBy ,sort , keyword,sex,color);
+		$("#search_id").val(keyword);
 	}else{
+		$("#search_key").text("/ 搜索条件： "+search_key.trim());
 		// 调用加载商品列表的方法
-		initGoods(pageNums, pageSize, orderBy ,sort , '',sex);
+		initGoods(pageNums, pageSize, orderBy ,sort , '',sex,color);
 	}
 	
 	//getShopTotal(); // 获取总共多少记录
@@ -71,7 +80,7 @@ $(document).ready(function(){
 			});
 		}
 		
-		initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex);
+		initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex,color);
 		initPageBar();
 	});
 	
@@ -89,7 +98,7 @@ function getUrlParam(name) {
 }
 
 // 加载商品列表
-function initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex){	// 当前页，页容量,按什么排序，升序或降序, 关键词
+function initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex,color){	// 当前页，页容量,按什么排序，升序或降序, 关键词
 	pageSize = $("#pageNumSelect").find("option:selected").val();
 	
 	var data={
@@ -100,7 +109,8 @@ function initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex){	// 当前页
 	    "minPrice":minPrice,
 	    "maxPrice":maxPrice,
 	    "keyword": keyword,
-	    "goodFit":sex
+	    "goodFit":sex,
+	    "goodColor":color
 	};
 	$.ajax({
 		url : baseURL+"/shop/getShopList", // 请求地址
@@ -190,7 +200,7 @@ function initPageBar(){
 			    ,layout: ['prev', 'page', 'next','limit','count','refresh','skip'],
 			    jump: function (e, first) { //触发分页后的回调
                     if (!first) { //一定要加此判断，否则初始时会无限刷新
-                        initGoods(e.curr, e.limit, orderBy, sort,keyword,sex);
+                        initGoods(e.curr, e.limit, orderBy, sort,keyword,sex,color);
                         window.scrollTo(0, 0);
                     }
                 }
@@ -225,7 +235,7 @@ function initPriceArea(){
 }
 
 function initShopByPrice(){
-	initGoods(pageNums, pageSize, orderBy, sort, keyword,sex);
+	initGoods(pageNums, pageSize, orderBy, sort, keyword,sex,color);
 	initPageBar();
 }
 
@@ -252,3 +262,38 @@ function initBrandArea(){
 		}
 	});
 }
+
+//点击搜索
+$("#searchBtn").click(function(){
+	let keyword = $("#search_id").val();
+	if(keyword==''||keyword==null){
+		layer.tips('请输入关键词', '#search_id', {
+			  tips: [1, '#78BA32']
+		});
+		return;
+	}
+	searchGoods(keyword);
+});
+// 搜索方法
+function searchGoods(keyword){
+	$("#searchForm").submit();
+}
+
+// 导航栏 按钮
+$(".navItem").click(function(){
+	var key = $(this).text().trim();
+	key = key.replace(" ",'');
+	window.location.href = baseURL+"/shop.html?keyword="+key;
+});
+
+$(".colorItem").click(function(){
+	var color = $(this).text().trim().replace("色",'');
+	window.location.href = baseURL+"/shop.html?color="+color;
+});
+
+$("listItem").click(function(){
+	var key = $(this).text().trim().replace(" ",'');
+	window.location.href = baseURL+"/shop.html?keyword="+key;
+})
+
+

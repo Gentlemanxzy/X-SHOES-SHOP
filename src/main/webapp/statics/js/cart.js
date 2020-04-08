@@ -1,6 +1,12 @@
 baseURL = $("#baseURL").val();
 var tableData = [];
 var checkedData_ = [];
+var addrVm = new Vue({
+	el: '#areaList',
+	data: {
+		areaList: null
+	},
+});
 $(document).ready(function(){
 	baseURL = $("#baseURL").val();
 	$("#delsBtn").hide();
@@ -9,7 +15,7 @@ $(document).ready(function(){
 	if(userId){
 		// 已经登录
 		getTableData(userId);
-		
+		getShopArea(userId);
 	}else{
 		// 未登录
 		layer.msg('您还未登录,请先登录XSS', {
@@ -50,10 +56,10 @@ $(document).ready(function(){
 		    	  templet:'<div><center><img src="{{ d.imgsrc}}"></center></div>'}
 		      ,{field: 'goodName', title: '名称', width: 210, sort: true}
 		      ,{field: 'goodSize', title: '尺码', width: 75,align:'center'}
-		      ,{field: 'goodColor', title: '颜色', width: 100,align:'center'}
+		      ,{field: 'goodColor', title: '颜色', width: 130,align:'center'}
 		      ,{field: 'goodPrice', title: '单价', width:80, sort: true}
 		      ,{field: 'goodNums', title: '数量', width: 70, totalRow: true, edit: 'text',align:'center'}
-		      ,{field: 'discountNum', title: '折扣', width:100} 
+		      ,{field: 'discountNum', title: '折扣', width:70} 
 		      ,{field: 'goodTotalPrice', title: '总价', width: 100 , totalRow: true, sort: true}
 		      ,{title:'操作', width: 150, align:'center', toolbar: '#barDemo'}
 		      ,{field: 'createTime', title: '加购时间', width: 110}
@@ -234,6 +240,9 @@ function submitBtn(){
 	// checkedData_
 	if(checkedData_.length == 0){
 		layer.msg("请选择商品");
+	}else{
+		window.location.href = "#discount-code";
+		layer.msg("请核实您的信息");
 	}
 }
 
@@ -243,13 +252,33 @@ function delShopGoods(){
 	if(checkedData_.length == 0){
 		layer.msg("请选择商品");
 	}else{
-		
-		for(let i = 0;i<checkedData_.length;i++){
-			let data = checkedData_[i];
-			console.log(data);
-			delCarGood(data,userId);
-		}
+		layer.confirm('确定移除选中的商品吗？', function(index){
+			for(let i = 0;i<checkedData_.length;i++){
+				let data = checkedData_[i];
+				console.log(data);
+				delCarGood(data,userId);
+			}
+	        layer.close(index);
+	    });
 		location.reload();
 	}
-	
+}
+
+// 获取收货列表
+var getShopArea = function(userId){
+	$.ajax({
+		url:baseURL+"/user/getShopArea",
+		type : "post", // 请求的类型，可选post、get等
+		dataType : "json" ,// 返回的类型，可选xml、json、script 或 html
+		data : {
+			userId:userId
+		}, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
+		async : true , // 同步 因为要分页 先要获取 count总数
+		success:function(data){
+			if(data.code=200){
+				var list = data.shopAddressList;
+				addrVm.areaList = list;
+			}
+		}
+	});
 }
