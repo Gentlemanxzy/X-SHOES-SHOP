@@ -135,7 +135,6 @@ function initGoodImgs(goodId){
 		},
 		async: true,
 		success:function(data){
-			//console.log(data);
 			if(data.code=="200"){
 				let imgs = data.goodImg;
 				if(imgs!=null){
@@ -385,7 +384,6 @@ function initSumAdd(){
 
 // 切换大图方法
 function changeImg(data){
-	//layer.msg(data);
 	$("#optima_zoom").attr("src",data);
 	$("#optima_zoom").attr("data-zoom-image",data);
 	var ez =   $('#optima_zoom').data('elevateZoom');

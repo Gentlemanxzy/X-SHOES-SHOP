@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xss.mapper.BlogMapper">
+
+	<select id="getBlogList" resultType="Article">
+		select * from article where status = '1'
+	</select>
+	
+	<select id="getBlogCount" resultType="int">
+		select count(1) from article where status = '1'
+	</select> 
+	
+	<select id="getBlogDetail" resultType="Article">
+		select * from article where status = '1' and article_id = #{articleId}
+	</select>
+	
+	<select id="getCommentList" resultType="ArticleComment">
+		select t1.user_name,t2.* from user t1 ,articlecomment t2 where t2.`status` = '1' and t1.`status` = '0' 
+			and t1.user_id = t2.user_id and t2.article_id = #{articleId} order by create_time
+	</select>
+	
+	<insert id="insertComment">
+		INSERT INTO articlecomment (comment_id,article_id,user_id,content,create_time)
+		VALUES (REPLACE(UUID(),"-",""),#{articleId},#{userId},#{content},NOW())
+	</insert>
+
+</mapper>

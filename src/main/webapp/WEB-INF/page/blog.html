@@ -17,6 +17,13 @@
         <link rel="stylesheet" href="${rc.contextPath}/statics/plugins/layui/css/layui.css">
         
         <script src="${rc.contextPath}/statics/js/vendor/modernizr-2.8.3.min.js"></script>
+    
+    	<style>
+    	.blog-img a img{
+    		width: 100%;
+    		height: 160px;
+    	}
+    	</style>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -95,114 +102,39 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!-- <div class="single-sidebar price">
-                                <div class="single-sidebar-title">
-                                    <h3>Price</h3>
-                                </div>
-                                <div class="single-sidebar-content">
-                                    <div class="price-range" id="price-range-div">
-                                    	<div id="price-range"></div>
-                                        <button type="submit" onclick="initShopByPrice();"> <span>search</span> </button>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- <div class="banner-left">
-                            	<h3>A·D</h3>
-                            	<br>
-                            	<p>李宁-天猫双十一限定款-盘古</p>
-                                <a href="#">
-                                    <img src="${rc.contextPath}/statics/img/goodsImg/panguAD.jpg" alt="">
-                                </a>
-                                <p>AF1×CLOT·黑丝绸</p>
-                                <a href="#">
-                                    <img src="${rc.contextPath}/statics/img/goodsImg/BlacksichouAD.gif" alt="">
-                                </a>
-                            </div> -->
                         </div>
                     </div>
                     <div class="col-sm-9">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="sidebar-title">
-                                    <h2>Blog Posts</h2>
+                                    <h2>Blog Posts(潮流·资讯)</h2>
                                 </div>
-                                <div class="blog-area">
+                                <div class="blog-area" id = "blogList">
+                                	<template v-for="(blog, index) in blogList" :key="blog.articleId">
                                     <div class="single-blog-post-page">
                                         <div class="blog-img">
-                                            <a href="${rc.contextPath}/blog-details.html">
-                                                <img src="${rc.contextPath}/statics/img/blog/5.jpg" alt="">
+                                            <a v-bind:href="[${rc.contextPath}/+'blog-details.html?articleId='+blog.articleId]" v-if="blog.coverImg != null">
+                                                <img v-bind:src="blog.coverImg" alt="">
+                                            </a>
+                                            <a v-bind:href="[${rc.contextPath}/+'blog-details.html?articleId='+blog.articleId]" v-else-if="blog.coverImg == null">
+                                                <img src="${rc.contextPath}/statics/img/xsslogo.jpg" alt="">
                                             </a>
                                         </div>
                                         <div class="blog-content">
-                                            <a href="blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                            <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                            <a href="blog-details.html" class="readmore">read more ></a>
+                                            <a v-bind:href="[${rc.contextPath}/+'blog-details.html?articleId='+blog.articleId]" class="blog-title">{{blog.articleTitle}}</a>
+                                            <span>By<a v-bind:href="['https://www.baidu.com/s?ie=UTF-8&wd='+blog.author]"> {{blog.author}} - </a>{{blog.createTime}} ( {{blog.readNum}} 次浏览 )</span>
+                                            <span style="float:right"> {{ blog.articleTag }} </span>
+                                            <p>{{blog.articleProfiles}} ...</p>
+                                            <a v-bind:href="[${rc.contextPath}/+'blog-details.html?articleId='+blog.articleId]" class="readmore">read more ></a>
                                         </div>
                                     </div>
-                                    <div class="single-blog-post-page">
-                                        <div class="blog-img">
-                                            <a href="${rc.contextPath}/blog-details.html">
-                                                <img src="${rc.contextPath}/statics/img/blog/6.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="blog-content">
-                                            <a href="${rc.contextPath}/blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                            <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                            <a href="blog-details.html" class="readmore">read more ></a>
-                                        </div>
-                                    </div>
-                                    <div class="single-blog-post-page">
-                                        <div class="blog-img">
-                                            <a href="${rc.contextPath}/blog-details.html">
-                                                <img src="${rc.contextPath}/statics/img/blog/5.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="blog-content">
-                                            <a href="${rc.contextPath}/blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                            <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                            <a href="${rc.contextPath}/blog-details.html" class="readmore">read more ></a>
-                                        </div>
-                                    </div>
-                                    <div class="single-blog-post-page">
-                                        <div class="blog-img">
-                                            <a href="${rc.contextPath}/blog-details.html">
-                                                <img src="${rc.contextPath}/statics/img/blog/6.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="blog-content">
-                                            <a href="${rc.contextPath}/blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                            <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                            <a href="${rc.contextPath}/blog-details.html" class="readmore">read more ></a>
-                                        </div>
-                                    </div>
-                                    <div class="single-blog-post-page">
-                                        <div class="blog-img">
-                                            <a href="${rc.contextPath}/blog-details.html">
-                                                <img src="${rc.contextPath}/statics/img/blog/5.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="blog-content">
-                                            <a href="${rc.contextPath}/blog-details.html" class="blog-title">Lorem ipsum dolor sit amet</a>
-                                            <span><a href="#">By plaza themes - </a>17 Aug 2015 ( 0 comments )</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna...</p>
-                                            <a href="${rc.contextPath}/blog-details.html" class="readmore">read more ></a>
-                                        </div>
-                                    </div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="toolbar-bottom">
-                                    <ul>
-                                        <li><span>Pages:</span></li>
-                                        <li class="current"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#"> <img src="${rc.contextPath}/statics/img/product/pager_arrow_right.gif" alt=""> </a></li>
-                                    </ul>
+                                    <div id="pagebar"></div>
                                 </div>
                             </div>
                         </div>
@@ -231,6 +163,7 @@
         <script src="${rc.contextPath}/statics/plugins/layer/layer.js"></script>
         <script src="${rc.contextPath}/statics/js/vendor/vue.min.js"></script>
         <script src="${rc.contextPath}/statics/plugins/layui/layui.js"></script>
+        <script src="${rc.contextPath}/statics/js/blog.js"></script>
     </body>
     <script type="text/javascript">
     	$(document).ready(function(){

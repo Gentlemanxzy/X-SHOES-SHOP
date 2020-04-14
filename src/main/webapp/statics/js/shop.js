@@ -120,7 +120,7 @@ function initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex,color){	// 当
 		async : false , // 同步 因为要分页 先要获取 count总数
 		success : function(data){
 			//console.log(shopVm);
-			if(data.code=200){
+			if(data.code==200){
 				if(shopVm.shopList!=null){
 					shopVm.shopList.splice(pageSize);
 				}else{
@@ -141,7 +141,6 @@ function initGoods(pageNums, pageSize, orderBy, sort ,keyword,sex,color){	// 当
 					}
 				}
 				
-				console.log(shopList);
 				shopVm.shopList = shopList;
 				//shopVm.$forceUpdate();
 				//console.log(shopVm);
@@ -166,7 +165,7 @@ function getShopTotal(){
 		data : data, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
 		async : "true" , // 是否异步 默认为true
 		success : function(data){
-			if(data.code=200){
+			if(data.code==200){
 				count = data.total;
 				initPageBar();// 调用分页初始化
 			}else{
@@ -248,8 +247,7 @@ function initBrandArea(){
 		data : {}, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
 		async : "true" , // 是否异步 默认为true
 		success : function(data){
-			if(data.code=200){
-				console.log(data.brandList);
+			if(data.code==200){
 				var vue = new Vue({
 					el: '#brandList',
 					data: {
@@ -294,6 +292,6 @@ $(".colorItem").click(function(){
 $("listItem").click(function(){
 	var key = $(this).text().trim().replace(" ",'');
 	window.location.href = baseURL+"/shop.html?keyword="+key;
-})
+});
 
 

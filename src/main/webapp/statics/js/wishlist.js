@@ -1,15 +1,18 @@
-var vm = null;
-
-
 var pageNums = 1; //页码
 var pageSize = 5; //页容量
 var pages = 1;// 一共多少页
 var count=0;//一共多少记录
-
+var wishvm = new Vue({
+	el: '#wishlist',
+	data: {
+		shopList: null
+	},
+});
 $(document).ready(function(){
 	baseURL = $("#baseURL").val();
 	initBrandArea();
 	initFavsList(pageNums, pageSize);
+	//initPageBar(pageNums,pageSize,count,0);
 });
 
 function initPageBar(pageNums, pageSize,total,lastpage){
@@ -53,8 +56,9 @@ function initFavsList(pageNums, pageSize){
 				pageSize:pageSize
 			},
 			type : "post", // 请求的类型，可选post、get等
+			async:"true",
 			success : function(data){
-				if(data.code=200){
+				if(data.code==200){
 					var wishlist = data.map.list;
 					var imgs = data.map.imgs;
 					var len = wishlist.length;
@@ -69,17 +73,10 @@ function initFavsList(pageNums, pageSize){
 							wishlist[i].imgsrc = baseURL+"/statics/img/product/24.png";
 						}
 					}
-					vm = new Vue({
-						el: '#wishlist',
-						data: {
-							shopList: null
-						},
-					});
-					
-					vm.shopList = wishlist;
+					wishvm.shopList = wishlist;
 					
 					var pageInfo = data.map.pageInfo;
-					
+					count = pageInfo.total;
 					// 当前页，页容量，总量，最后一页
 					initPageBar(pageNums, pageSize, pageInfo.total,pageInfo.lastPage);
 					
@@ -120,7 +117,7 @@ function delFavBtn(goodId){
 				},
 				type : "post", // 请求的类型，可选post、get等
 				success : function(data){
-					if(data.code="200"){
+					if(data.code=="200"){
 						if(data.flag == '1'){
 							layer.msg("操作成功");
 							// 刷新页面
@@ -143,7 +140,7 @@ function initBrandArea(){
 		data : {}, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
 		async : "true" , // 是否异步 默认为true
 		success : function(data){
-			if(data.code=200){
+			if(data.code==200){
 				console.log(data.brandList);
 				var vue = new Vue({
 					el: '#brandList',

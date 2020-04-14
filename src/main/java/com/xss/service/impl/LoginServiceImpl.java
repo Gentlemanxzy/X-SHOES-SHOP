@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
-import com.xss.entry.Series;
 import com.xss.pojo.FavGoods;
 import com.xss.pojo.User;
 import com.xss.mapper.LoginMapper;
@@ -22,10 +21,7 @@ public class LoginServiceImpl implements LoginService {
 	private ShopService shopService;
 	
 	public String login(String shbxdjm) {
-		List<Series> series = loginMapper.getSeries();
-		String seriesName = series.get(0).getSeriesName();
-		System.out.println("登录成功:" + seriesName);
-		return seriesName;
+		return "";
 	}
 
 	public User login(User user) {

@@ -58,7 +58,7 @@ $(document).ready(function(){
 					dataType : "json" ,
 					async : "true",
 					success : function(data){
-						if(data.code=200){
+						if(data.code==200){
 							// 操作成功
 							// 修改localStorage
 							localStorage.setItem(userId, JSON.stringify(userInfo));
@@ -132,7 +132,7 @@ var getShopArea = function(userId){
 		}, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
 		async : true , // 同步 因为要分页 先要获取 count总数
 		success:function(data){
-			if(data.code=200){
+			if(data.code==200){
 				var list = data.shopAddressList;
 				addrVm.areaList = list;
 			}
@@ -153,7 +153,7 @@ function delAddr(addId){
 			}, 
 			async : true , 
 			success:function(data){
-				if(data.code=200){
+				if(data.code==200){
 					getShopArea(userId);
 					layer.msg(data.msg);
 				}

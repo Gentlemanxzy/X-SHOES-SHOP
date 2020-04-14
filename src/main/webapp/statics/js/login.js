@@ -16,6 +16,9 @@ $(document).ready(function(){
 	
 	$("#userReg").blur(function(){
 		var tmp_user = $("#userReg").val();
+		if (tmp_user == '' || tmp_user==null){
+			return;
+		} 
 		// 判断用户名是否存在
 		var data = {"userName": tmp_user};
 		$.ajax({

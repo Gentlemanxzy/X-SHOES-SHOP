@@ -27,7 +27,7 @@ public class ShopController {
 	@RequestMapping("/getShopList")
 	public R getShopList(GoodsDto dto) {
 		List shopList = new ArrayList();
-		shopList = shopService.getShopList(dto);
+		shopList = shopService.getShopList(dto);// 这两句sql一定要一起改
 		int total = shopService.getShopTotal(dto);// 获取商品总数
 		HashMap<String, String> imgMap = new HashMap<String, String>();
 
