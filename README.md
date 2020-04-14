@@ -28,8 +28,12 @@
 - modifyCarGood.html 修改购物车(用于弹窗)
 - addToCartLayer.html 添加商品至购物车(用于弹窗)
 - updateAddr.html 更新收货地址(用于弹窗)
-以下页面待开发
 - blog.html 博客
 - blog-details.html 博客详情页
+
+以下页面待开发
 - checkout.html 结算页面
 
+以下页面待补充修改
+- cart.html 购物车页面
+- index.html 首页
