@@ -1537,6 +1537,7 @@ body {
     border: 2px solid #fff;
     float: left;
     max-width: 40%;
+    margin-top: -20px;/**index blog-area÷–”√**/
 }
 .blog-img a {
     display: block;
@@ -2865,7 +2866,7 @@ button.check-button:hover,
     margin-bottom: 30px;
 }
 .totals h3, .totals p, .totals .shopping-button {
-    float: right;
+    /* float: right; */
 }
 .totals .shopping-button {
     padding: 0;

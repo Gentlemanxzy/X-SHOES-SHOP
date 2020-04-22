@@ -9,6 +9,7 @@ $(document).ready(function(){
 	
 	initShopList("goodIsNew",1);
 	initShopList_Favs();// 加载主打商品列表
+	initBlogList();
 	
 	$("#tablist1").click(function(){	// new
 		let msg = $("#tablist1").attr("value");
@@ -160,7 +161,6 @@ function initShopList(param, value){
 						shopList[i].fav = '0';
 					}
 				}
-				
 				vm.shopList = shopList;
 			}
 		}
@@ -181,7 +181,9 @@ function initShopList_Favs(){
 				let shopList = data.map.list;
 				// 收藏
 				let favs = localStorage.getItem("favs");
-				
+				if(favs==null){
+					favs='';
+				}
 				let len = shopList.length;
 				let imgs = data.map.imgs;
 				for(let i=0;i<len;i++){
@@ -205,7 +207,6 @@ function initShopList_Favs(){
 						shopList[i].fav = '0';
 					}
 				}
-				
 				var vm2 = new Vue({
 					el: '#zdShop',
 					data: {
@@ -214,6 +215,31 @@ function initShopList_Favs(){
 					mounted(){
 						// 初始化滑块插件
 						initOwlCrousel();
+					}
+				});
+			}
+		}
+	});
+}
+
+// 获取blog列表
+function initBlogList(){
+	$.ajax({
+		url:baseURL+"/blog/getBlogList",
+		type:"post",
+		dataType:"json",
+		data:{
+			pageNums:1,
+			pageSize:4
+		},
+		async: true,
+		success:function(data){
+			if(data.code == '200'){
+				data = data.data;
+				var blogVM = new Vue({
+					el: "#blog-area",
+					data:{
+						blogList:data.blogList
 					}
 				});
 			}

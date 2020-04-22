@@ -20,4 +20,6 @@ public interface BlogMapper extends Mapper<Article>{
 
 	int insertComment(@Param("content")String content, @Param("userId")String userId, @Param("articleId")String articleId);
 
+	int  addReadNum(String articleId);
+
 }

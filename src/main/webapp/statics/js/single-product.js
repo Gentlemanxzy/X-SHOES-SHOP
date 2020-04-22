@@ -11,7 +11,9 @@ $(document).ready(function(){
 	if (localStorage.user){ // 判断是否登录
 		userId = localStorage.getItem("user");
 		// 新增浏览记录
-		addViewHis(userId,goodId);
+		if(goodId){
+			addViewHis(userId,goodId);
+		}
 	}
 	
 	getFavs();
@@ -117,6 +119,7 @@ function initGoodInfo(goodId){
 					},
 					mounted(){
 						$("#gooddesc").text(data.goodInfo.goodDescription);
+						$("#shopName_").text(" / "+data.goodInfo.goodName);
 					}
 				});
 				//vm.good = data.goodInfo;

@@ -1,17 +1,24 @@
-baseURL = $("#baseURL").val();
+var baseURL = $("#baseURL").val();
 var tableData = [];
 var checkedData_ = [];
+var addId_check = '';// 记录哪个收货地址被选中
+var table = null;
+var total_price = 0;
+var discount;// 默认为1 不打折 8折为0.8
 var addrVm = new Vue({
 	el: '#areaList',
 	data: {
 		areaList: null
 	},
 });
+var userId = localStorage.getItem("user");
+
 $(document).ready(function(){
+	discount = 1;
 	baseURL = $("#baseURL").val();
 	$("#delsBtn").hide();
 	// 判断是否登录
-	var userId = localStorage.getItem("user");
+	userId = localStorage.getItem("user");
 	if(userId){
 		// 已经登录
 		getTableData(userId);
@@ -35,7 +42,7 @@ $(document).ready(function(){
 	}
 	
 	layui.use(['laypage','table'], function(){
-		var table = layui.table,
+		table = layui.table,
 		laypage = layui.laypage,
 		$ = layui.$;
 		
@@ -90,6 +97,15 @@ $(document).ready(function(){
 			}
 			console.log(data);
 			
+			let total_price_1 = 0;
+			for(let i=0;i<data.length;i++){
+				total_price_1+=data[i].goodTotalPrice;
+			}
+			let discount_1 = discount;
+			total_price = total_price_1;
+			$("#total-price-1").text(total_price_1.toFixed(2));
+			$("#total-price-2").text((total_price_1*discount_1).toFixed(2));
+			
 		});
 		
 		//监听工具条
@@ -121,21 +137,52 @@ $(document).ready(function(){
 					  var iframeWin = window[layero.find('iframe')[0]['name']];
 				  },
 				  end: function(){
-//					  getTableData(userId);
-//					  table.reload('cartTable',{
-//						  page:{
-//							  curr:1
-//						  }
-//					  },'tableData');
-					  location.reload();
+					  getTableData(userId);
+					 table.render({
+					    elem: '#cartTable'
+					    ,title: '购物车'
+					    ,page: true //开启分页
+					    ,totalRow: true //开启合计行
+					    ,limits:[5,10,15]
+					    ,cols: [[ //表头
+					      {type: 'checkbox'}
+					      ,{field: 'No', title: '序号', width:60 ,align:'center'}
+					      ,{field: 'imgsrc', title: '图片', width:135,
+					    	  templet:'<div><center><img src="{{ d.imgsrc}}"></center></div>'}
+					      ,{field: 'goodName', title: '名称', width: 210, sort: true}
+					      ,{field: 'goodSize', title: '尺码', width: 75,align:'center'}
+					      ,{field: 'goodColor', title: '颜色', width: 130,align:'center'}
+					      ,{field: 'goodPrice', title: '单价', width:80, sort: true}
+					      ,{field: 'goodNums', title: '数量', width: 70, totalRow: true, edit: 'text',align:'center'}
+					      ,{field: 'discountNum', title: '折扣', width:70} 
+					      ,{field: 'goodTotalPrice', title: '总价', width: 100 , totalRow: true, sort: true}
+					      ,{title:'操作', width: 150, align:'center', toolbar: '#barDemo'}
+					      ,{field: 'createTime', title: '加购时间', width: 110}
+					    ]],
+					    data: tableData
+					  });
 				  }	
-	    			
 			});
 	    }
 	  });
-		
 	});
 	
+});
+
+$("#discount-btn").click(function(){
+	let discount= $("#discount-input").val();
+	if(discount==null || discount==''){
+		layer.msg('请填写折扣码喔，优惠多多');
+	}else if(discount=='kobe'){
+		layer.msg('恭喜获得8折折扣，愉快购物');
+		discount = 0.8;
+		$("#total-price-2").text((total_price*discount).toFixed(2));
+		$("#discount-btn").hide();
+		$("#discount-div").text('已获得8折折扣优惠');
+	}else{
+		layer.msg('暂无优惠');
+		$("#discount-input").val('');
+	}
 });
 
 // 移除
@@ -148,8 +195,6 @@ function delCarGood(data,userId){
 			userId: userId,
 			goodId: data.goodId,
 			goodSize: data.goodSize,
-			//goodNums: data.goodNums,
-			//goodTotalPrice: data.goodTotalPrice,
 			goodColor: data.goodColor
 		},
 		async: true,
@@ -220,7 +265,6 @@ function getTableData(userId){
 						list[i].imgsrc = baseURL+"/statics/img/product/24.png";
 					}
 				}
-				
 				tableData = list;
 			}
 		}
@@ -243,8 +287,39 @@ function submitBtn(){
 	}else{
 		window.location.href = "#discount-code";
 		layer.msg("请核实您的信息");
+		$(".discount-code").css("visibility","visible");
 	}
 }
+
+// 最终提交
+$("#checkBtn").click(function(){
+	if(checkedData_.length == 0){
+		layer.msg("请选择商品");
+		window.location.href = "#cartTable";
+	}else if(addId_check==''){// 判断是否选中了收货地址
+		layer.msg("请选择收货地址");
+		window.location.href = "#discount-code";
+	}else{
+		//layer.msg(addId_check);
+		let checkedDataJson = JSON.stringify(checkedData_);
+		$.ajax({
+			url : baseURL+"/cars/jumpToCheck", // 请求地址
+			type : "post", // 请求的类型，可选post、get等
+			dataType : "json" ,// 返回的类型，可选xml、json、script 或 html
+			data : {
+				userId: userId,// 用户id
+				addId: addId_check, // 收货地址id
+				checkedData : checkedDataJson,// 选中的商品 array str
+			},
+			async : true, 
+			success : function(data){
+				if(data.code=="200"){
+					
+				}
+			}
+		});
+	}
+});
 
 // 批量删除
 function delShopGoods(){
@@ -258,9 +333,35 @@ function delShopGoods(){
 				console.log(data);
 				delCarGood(data,userId);
 			}
+			getTableData(userId);
+//	        table.reload('cartTable', {
+//	            data: tableData // 调用table.reload 重新渲染显示加载追加了数据的表格
+//	        });
+			table.render({
+			    elem: '#cartTable'
+			    ,title: '购物车'
+			    ,page: true //开启分页
+			    ,totalRow: true //开启合计行
+			    ,limits:[5,10,15]
+			    ,cols: [[ //表头
+			      {type: 'checkbox'}
+			      ,{field: 'No', title: '序号', width:60 ,align:'center'}
+			      ,{field: 'imgsrc', title: '图片', width:135,
+			    	  templet:'<div><center><img src="{{ d.imgsrc}}"></center></div>'}
+			      ,{field: 'goodName', title: '名称', width: 210, sort: true}
+			      ,{field: 'goodSize', title: '尺码', width: 75,align:'center'}
+			      ,{field: 'goodColor', title: '颜色', width: 130,align:'center'}
+			      ,{field: 'goodPrice', title: '单价', width:80, sort: true}
+			      ,{field: 'goodNums', title: '数量', width: 70, totalRow: true, edit: 'text',align:'center'}
+			      ,{field: 'discountNum', title: '折扣', width:70} 
+			      ,{field: 'goodTotalPrice', title: '总价', width: 100 , totalRow: true, sort: true}
+			      ,{title:'操作', width: 150, align:'center', toolbar: '#barDemo'}
+			      ,{field: 'createTime', title: '加购时间', width: 110}
+			    ]],
+			    data: tableData
+			  });
 	        layer.close(index);
 	    });
-		location.reload();
 	}
 }
 
@@ -269,7 +370,7 @@ var getShopArea = function(userId){
 	$.ajax({
 		url:baseURL+"/user/getShopArea",
 		type : "post", // 请求的类型，可选post、get等
-		dataType : "json" ,// 返回的类型，可选xml、json、script 或 html
+		dataType : "json" ,
 		data : {
 			userId:userId
 		}, // 请求的数据,规定连同请求发送到服务器的数据 (data1)
@@ -278,7 +379,76 @@ var getShopArea = function(userId){
 			if(data.code==200){
 				var list = data.shopAddressList;
 				addrVm.areaList = list;
+				for(let i=0;i<list.length;i++){
+					if(list[i].isMain=='1'){
+						// 把id拿出来
+						addId_check = list[i].addId;
+					}
+				}
 			}
 		}
 	});
 }
+
+function funcA(addId, that){
+	let ulNode = $("#areaList li .areaLiDiv");
+	let liNodes = $("#areaList li");
+	// 判断是否选中的是 li
+	if(that.path[1].className.indexOf("areaLiDiv")!=-1){
+		
+		// 把原来选中的 改为未选中
+		for(let i=0;i<ulNode.length;i++){
+			if(ulNode[i].getAttribute("class").indexOf("active")!=-1){
+				ulNode[i].setAttribute("class","areaLiDiv");
+			}
+		}
+		
+		// 如果包含了active
+		if(that.path[1].className.indexOf("active")!=-1){
+			that.path[1].className = that.path[1].className.replace("active",'');
+		}else{
+			// 如果没有.active
+			that.path[1].className = that.path[1].className + " active";
+		}
+		
+	}else if(that.path[2].className.indexOf("areaLiDiv")!=-1){
+		
+		// 把原来选中的 改为未选中
+		for(let i=0;i<ulNode.length;i++){
+			if(ulNode[i].getAttribute("class").indexOf("active")!=-1){
+				ulNode[i].setAttribute("class","areaLiDiv");
+			}
+		}
+		
+		if(that.path[2].className.indexOf("active")!=-1){
+			that.path[2].className = that.path[2].className.replace("active",'');
+		}else{
+			// 如果没有.active
+			that.path[2].className = that.path[2].className + " active";
+		}
+	}else if(that.path[3].className.indexOf("areaLiDiv")!=-1){
+		
+		// 把原来选中的 改为未选中
+		for(let i=0;i<ulNode.length;i++){
+			if(ulNode[i].getAttribute("class").indexOf("active")!=-1){
+				ulNode[i].setAttribute("class","areaLiDiv");
+			}
+		}
+		
+		if(that.path[3].className.indexOf("active")!=-1){
+			that.path[3].className = that.path[3].className.replace("active",'');
+		}else{
+			// 如果没有.active
+			that.path[3].className = that.path[3].className + " active";
+		}
+	}
+	
+	for(let i=0;i<ulNode.length;i++){
+		if(ulNode[i].getAttribute("class").indexOf("active")!=-1){
+			addId_check = ulNode[i].parentElement.getAttribute("value");
+			console.log(addId_check);
+		}
+	}
+	
+}
+

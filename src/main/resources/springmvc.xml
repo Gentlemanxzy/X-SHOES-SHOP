@@ -34,8 +34,6 @@
 			</list>
 		</property>
 	</bean>
-	<!-- FreeMarker视图解析器     默认视图 -->
-
 
 	<!-- FreeMarker视图解析器     默认视图 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">

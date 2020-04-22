@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.github.abel533.mapper.Mapper;
 import com.xss.pojo.Cars;
+import com.xss.pojo.Goods;
+import com.xss.pojo.OrderDetials;
+import com.xss.pojo.Orders;
 
 public interface CarsMapper extends Mapper<Cars>{
 
@@ -21,5 +24,9 @@ public interface CarsMapper extends Mapper<Cars>{
 
 	int delCarGood(@Param("userId")String userId, @Param("goodId")String goodId, 
 			@Param("goodSize")String goodSize, @Param("goodColor")String goodColor);
+
+	int insertOrders(Orders orders);
+
+	int insertOrdersDetial(OrderDetials oDetials);
 
 }

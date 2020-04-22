@@ -4,7 +4,7 @@
 <mapper namespace="com.xss.mapper.BlogMapper">
 
 	<select id="getBlogList" resultType="Article">
-		select * from article where status = '1'
+		select * from article where status = '1' order by create_time DESC
 	</select>
 	
 	<select id="getBlogCount" resultType="int">
@@ -25,4 +25,7 @@
 		VALUES (REPLACE(UUID(),"-",""),#{articleId},#{userId},#{content},NOW())
 	</insert>
 
+	<update id="addReadNum">
+		update article set read_num = read_num + 1 where article_id = #{articleId} and status = '1'
+	</update>
 </mapper>

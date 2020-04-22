@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.xss.pojo.Cars;
+import com.xss.pojo.Goods;
 import com.xss.pojo.Images;
 import com.xss.service.CarsService;
 import com.xss.service.ShopService;
@@ -85,5 +87,26 @@ public class CarsController {
 		}
 	}
 	
-	
+	/**
+	 * 跳转结算页面
+	 * @param userId 
+	 * @param addId
+	 * @param object 选中的商品array
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/jumpToCheck")
+	public Object jumpToCheck(String userId,String addId,String checkedData) {
+		ModelAndView mv = new ModelAndView();
+		int i = carsService.insertCheckInfo(userId,addId,checkedData);
+		
+		if(i>=1) {
+			mv.setViewName("checkout.html");
+			return mv;
+		}else {
+			return new R().ok("ERROR,插入数据库失败");
+		}
+		//mv.addObject("shopList", list);
+		//mv.addObject("keyword", keyword);
+	}
 }

@@ -120,7 +120,7 @@ function subMethod(articleId){
 	if(userId){
 		var text = $("#reply-comment").val();
 		if(text!=null && text!=""){
-//			var x = $("#commentForm")[0].action;
+//			let x = $("#commentForm")[0].action;
 //			x = x+"?articleId="+articleId+"&userId="+userId;
 //			layer.msg(x);
 //			$("#commentForm")[0].action = x;

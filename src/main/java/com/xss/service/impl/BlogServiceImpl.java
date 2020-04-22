@@ -44,6 +44,8 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public Article getBlogDetail(String articleId) {
+		// 同时浏览次数 + 1
+		blogMapper.addReadNum(articleId);
 		
 		return blogMapper.getBlogDetail(articleId);
 	}

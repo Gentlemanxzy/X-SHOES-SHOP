@@ -27,5 +27,16 @@
 		where user_id = #{userId} and good_id = #{goodId} and good_color=#{goodColor} 
 			and good_size = #{goodSize} and good_status = '1'
 	</update>
+	
+	<insert id="insertOrders" parameterType="Orders">
+		insert into orders (order_id,user_id,add_id,create_time,status)
+		Values (#{orderId},#{userId},#{addId},NOW(),#{status})
+	</insert>
+	
+	<insert id="insertOrdersDetial" parameterType="OrderDetials">
+		insert into orderdetials (order_id, good_id,good_total_price,good_color,good_size,
+			good_nums,order_detial_status)
+		Values (#{orderId},#{goodId},#{goodTotalPrice},#{goodColor},#{goodSize}, #{goodNums},#{orderDetialStatus})
+	</insert>
 
 </mapper>

@@ -24,7 +24,14 @@
 		    margin-left: 1px;
 		}
 		.areaLi{
-			margin: 20px;
+			margin: 10px;
+		}
+		.areaLiDiv{
+			padding: 10px;
+		}
+		.active{
+			border: 2px dotted #ccc;
+			color: red;
 		}
     </style>
     <body>
@@ -74,41 +81,65 @@
                     </div>
                 </div>
                 <div id="discount-code" class="row">
-                    <div class="col-sm-4">
-                        <div class="discount-code">
+                    <div class="col-sm-4" >
+                        <div class="discount-code" style="visibility:hidden">
                             <h3>Discount Codes(折扣码)</h3>
                             <p>Enter your coupon code if you have one.(请输入折扣码)</p>
                             <input id="discount-input" type="text">
-                            <div class="shopping-button">
-                                <button type="button">使用折扣</button>
+                            <div class="shopping-button" id="discount-div">
+                                <button type="button" id="discount-btn">使用折扣</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-4">
+                    <form class="layui-form" action="">
                         <div class="estimate-shipping">
                             <h3>选择您的收货地址</h3>
                             <p>不选则会使用默认地址</p>
+                            <!-- <div class="layui-inline">
+						      <div class="layui-input-inline">
+						        <select name="modules" lay-verify="required" lay-search="" id="areaList">
+						        	<option value="0">可以直接搜索</option>
+						        	<option value="" v-for="area in areaList">姓名:{{area.shopName}} 联系方式:{{area.phone}} 联系地址:{{area.province}} {{area.city}} {{area.area}} {{area.detailAddress}}</option>
+						        </select>
+						      </div>
+						    </div> -->
                             <ul id="areaList">
-                            	<li class="areaLi" v-for="area in areaList">
-                            	<div><b>
-									姓名：</b><span>{{area.shopName}}</span> <span
-										style="margin-left: 20px;"><b>联系方式：</b></span><span>{{area.phone}}</span>
-								</div>
-								<div><b>联系地址:</b> {{area.province}} {{area.city}}
-									{{area.area}} {{area.detailAddress}}</div>
+                            	<li class="areaLi" v-for="area in areaList" @click="funcA(area.addId,$event);" v-bind:value="area.addId">
+                            		<template @click="funcA(area.addId,$event);" v-if="area.isMain == '1'">
+                            		<!-- <a href="javascript:;" @click="funcA(area.addId,$event);" v-if="area.isMain == '1'"> -->
+		                            	<div class="areaLiDiv active" v-bind:value="area.addId">
+			                            	<div><b> 姓名：</b><span>{{area.shopName}}</span> 
+												<span style="margin-left: 20px;"><b>联系方式：</b></span><span>{{area.phone}}</span>
+											</div>
+											<div><b>联系地址:</b> {{area.province}} {{area.city}} {{area.area}} {{area.detailAddress}}</div>
+										</div>
+                            		<!-- </a> -->
+                            		</template>
+                            		<template @click="funcA(area.addId,$event);" v-else>
+		                            	<div class="areaLiDiv" v-bind:value="area.addId">
+			                            	<div><b> 姓名：</b><span>{{area.shopName}}</span> 
+												<span style="margin-left: 20px;"><b>联系方式：</b></span><span>{{area.phone}}</span>
+											</div>
+											<div><b>联系地址:</b> {{area.province}} {{area.city}} {{area.area}} {{area.detailAddress}}</div>
+										</div>
+                            		</template>
                             	</li>
                             </ul>
+                        	<button>新增收货地址</button>
                         </div>
+                    </form>
                     </div>
                     <div class="col-sm-4">
                         <div class="totals">
-                            <p>商品总价 <span id="total-price-1">666</span> </p>
-                            <br>
-                            <h3>最终价格 <span id="total-price-2">888</span></h3>
-                            <div class="shopping-button">
-                                <button type="submit">proceed to checkout</button>
-                            </div>
-                            <a href="#">Checkout with Multiple Addresses</a>
+                            <p style="clear:right;">商品总价： <span id="total-price-1">0</span> </p>
+                            <h3>最终价格： <span id="total-price-2">0</span></h3>
+                            <form id="submitForm" action='${rc.contextPath}/cars/jumpToCheck'>
+	                            <div class="shopping-button">
+	                                <button id="checkBtn" type="button" style="margin-top: 20px;">确认并提交订单</button>
+	                            </div>
+                            </form>
+                            <a href="#discount-code">收货地址别忘了选喔~</a>
                         </div>
                     </div>
                 </div>

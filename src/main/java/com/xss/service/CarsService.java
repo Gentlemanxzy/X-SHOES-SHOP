@@ -13,4 +13,6 @@ public interface CarsService {
 
 	int delCarGood(String userId, String goodId, String goodSize, String goodColor);
 
+	int insertCheckInfo(String userId, String addId, String jsonArray);
+
 }
